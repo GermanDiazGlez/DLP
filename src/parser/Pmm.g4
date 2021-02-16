@@ -3,7 +3,8 @@ grammar Pmm;
 program: 
        ;
 
-
+fragment LETTER: [a-zA-Z]
+            ;
 
 
 INT_CONSTANT: '0' | [1-9]+[0-9]*
@@ -15,12 +16,17 @@ DOUBLE_CONSTANT: '0'?'.'[0-9]*
                  | '0'?'.'[0-9]*('E'|'e')'-'?[1-9]+
                  | [1-9]+'.'[0-9]*('E'|'e')'-'?[1-9]+
             ;
-IDENTIFIER_CONSTANT: ([a-zA-Z]*'_'?[a-zA-Z]*)+
+IDENTIFIER_CONSTANT: (LETTER+'_'?LETTER*)+
             ;
-COMMENT1 : '#'.*?'\r''\n'EOF-> skip
+
+CHAR_CONSTANT : '\''.'\''
+                | '\'\\' [tn] '\''
+                | '\'\\' INT_CONSTANT '\''
+            ;
+
+COMMENT1 : '#'.*? ('\r'|'\n'|EOF) -> skip
             ;
 COMMENT2 : '"""'.*?'"""' -> skip
             ;
-
-CHAR_CONSTANT : '\n' | '\t' | '\r'
+WHITESPACE: [ \n\r\t]+ -> skip
             ;
