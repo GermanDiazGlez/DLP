@@ -40,6 +40,42 @@ public class PmmBaseListener implements PmmListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterStructDef(PmmParser.StructDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStructDef(PmmParser.StructDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVector(PmmParser.VectorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVector(PmmParser.VectorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStruct(PmmParser.StructContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStruct(PmmParser.StructContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCast(PmmParser.CastContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -71,18 +107,6 @@ public class PmmBaseListener implements PmmListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAssignment(PmmParser.AssignmentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterStatement(PmmParser.StatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitStatement(PmmParser.StatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -143,6 +167,18 @@ public class PmmBaseListener implements PmmListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFunction(PmmParser.FunctionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStatement(PmmParser.StatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStatement(PmmParser.StatementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

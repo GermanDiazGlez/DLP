@@ -23,6 +23,24 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitType(PmmParser.TypeContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link PmmParser#structDef}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStructDef(PmmParser.StructDefContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#vector}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVector(PmmParser.VectorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#struct}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStruct(PmmParser.StructContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link PmmParser#cast}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -40,12 +58,6 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAssignment(PmmParser.AssignmentContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PmmParser#statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStatement(PmmParser.StatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PmmParser#definition}.
 	 * @param ctx the parse tree
@@ -76,4 +88,10 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunction(PmmParser.FunctionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(PmmParser.StatementContext ctx);
 }

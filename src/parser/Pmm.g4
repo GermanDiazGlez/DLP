@@ -5,9 +5,17 @@ program: (expression | statement)+ EOF
 
 type: 'int' | 'char' | 'double'
             ;
-cast: '(' type ')' expression
+
+structDef: (ID ':' type ';')*
             ;
 
+vector: ID ':' ('[' INT_CONSTANT ']')+ type ';'
+            ;
+
+struct: ID ':' 'struct' '{' structDef '}' ';'
+            ;
+cast: '(' type ')' expression
+            ;
 expression: '(' expression ')'
             | expression '[' expression ']'
             | expression '.' ID
@@ -38,12 +46,14 @@ funCall: ID '(' (expression (','expression)*)? ')' ';'
 returnType: 'return' expression ';'
             ;
 
-function: 'def' ID'(' funDefinition ')' ':' type? '{' (definition | funCall | assignment)* returnType?'}'
+function: 'def' ID'(' funDefinition ')' ':' type? '{' (definition | funCall | assignment | struct)* returnType?'}'
             ;
 
 statement: assignment
+            | struct
             | definition
             | function
+            | vector
             ;
 
 

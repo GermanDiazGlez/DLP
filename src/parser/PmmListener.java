@@ -28,6 +28,36 @@ public interface PmmListener extends ParseTreeListener {
 	 */
 	void exitType(PmmParser.TypeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link PmmParser#structDef}.
+	 * @param ctx the parse tree
+	 */
+	void enterStructDef(PmmParser.StructDefContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PmmParser#structDef}.
+	 * @param ctx the parse tree
+	 */
+	void exitStructDef(PmmParser.StructDefContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PmmParser#vector}.
+	 * @param ctx the parse tree
+	 */
+	void enterVector(PmmParser.VectorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PmmParser#vector}.
+	 * @param ctx the parse tree
+	 */
+	void exitVector(PmmParser.VectorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PmmParser#struct}.
+	 * @param ctx the parse tree
+	 */
+	void enterStruct(PmmParser.StructContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PmmParser#struct}.
+	 * @param ctx the parse tree
+	 */
+	void exitStruct(PmmParser.StructContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link PmmParser#cast}.
 	 * @param ctx the parse tree
 	 */
@@ -57,16 +87,6 @@ public interface PmmListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAssignment(PmmParser.AssignmentContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link PmmParser#statement}.
-	 * @param ctx the parse tree
-	 */
-	void enterStatement(PmmParser.StatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link PmmParser#statement}.
-	 * @param ctx the parse tree
-	 */
-	void exitStatement(PmmParser.StatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PmmParser#definition}.
 	 * @param ctx the parse tree
@@ -117,4 +137,14 @@ public interface PmmListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunction(PmmParser.FunctionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PmmParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatement(PmmParser.StatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PmmParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatement(PmmParser.StatementContext ctx);
 }
