@@ -12,10 +12,20 @@ structDef: (ID ':' type ';')*
 vector: ID ':' ('[' INT_CONSTANT ']')+ type ';'
             ;
 
+vectorAssign: ID ('[' INT_CONSTANT ']')+ '=' expression
+            ;
+
 struct: ID ':' 'struct' '{' structDef '}' ';'
             ;
 cast: '(' type ')' expression
             ;
+
+comparator: ('<' | '>' | '<=' | '>=' | '!=' | '==')
+            ;
+
+condition: expression comparator expression
+            ;
+
 expression: '(' expression ')'
             | expression '[' expression ']'
             | expression '.' ID
@@ -23,7 +33,7 @@ expression: '(' expression ')'
             | '!' expression
             | expression ('*' | '/' | '%') expression
             | expression ('+' | '-') expression
-            | expression ('<' | '>' | '<=' | '>=' | '!=' | '==') expression
+            | expression comparator expression
             | expression ('&&' | '||') expression
             | INT_CONSTANT
             | REAL_CONSTANT
@@ -49,11 +59,16 @@ returnType: 'return' expression ';'
 function: 'def' ID'(' funDefinition ')' ':' type? '{' (definition | funCall | assignment | struct)* returnType?'}'
             ;
 
+bucleW: 'while' condition ':' '{' (bucleW | definition | funCall | assignment | struct)* '}'
+            ;
+
 statement: assignment
             | struct
             | definition
             | function
             | vector
+            | vectorAssign
+            | bucleW
             ;
 
 

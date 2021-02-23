@@ -48,6 +48,16 @@ public interface PmmListener extends ParseTreeListener {
 	 */
 	void exitVector(PmmParser.VectorContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link PmmParser#vectorAssign}.
+	 * @param ctx the parse tree
+	 */
+	void enterVectorAssign(PmmParser.VectorAssignContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PmmParser#vectorAssign}.
+	 * @param ctx the parse tree
+	 */
+	void exitVectorAssign(PmmParser.VectorAssignContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link PmmParser#struct}.
 	 * @param ctx the parse tree
 	 */
@@ -67,6 +77,26 @@ public interface PmmListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCast(PmmParser.CastContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PmmParser#comparator}.
+	 * @param ctx the parse tree
+	 */
+	void enterComparator(PmmParser.ComparatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PmmParser#comparator}.
+	 * @param ctx the parse tree
+	 */
+	void exitComparator(PmmParser.ComparatorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PmmParser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void enterCondition(PmmParser.ConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PmmParser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void exitCondition(PmmParser.ConditionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PmmParser#expression}.
 	 * @param ctx the parse tree
@@ -137,6 +167,16 @@ public interface PmmListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunction(PmmParser.FunctionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PmmParser#bucleW}.
+	 * @param ctx the parse tree
+	 */
+	void enterBucleW(PmmParser.BucleWContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PmmParser#bucleW}.
+	 * @param ctx the parse tree
+	 */
+	void exitBucleW(PmmParser.BucleWContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PmmParser#statement}.
 	 * @param ctx the parse tree
