@@ -1,7 +1,54 @@
 grammar Pmm;	
 
-program:
+program: (expression | statement)+ EOF
        ;
+
+type: 'int' | 'char' | 'double'
+            ;
+cast: '(' type ')' expression
+            ;
+
+expression: '(' expression ')'
+            | expression '[' expression ']'
+            | expression '.' ID
+            | cast
+            | '!' expression
+            | expression ('*' | '/' | '%') expression
+            | expression ('+' | '-') expression
+            | expression ('<' | '>' | '<=' | '>=' | '!=' | '==') expression
+            | expression ('&&' | '||') expression
+            | INT_CONSTANT
+            | REAL_CONSTANT
+            | CHAR_CONSTANT
+            | ID
+            ;
+
+assignment: expression '=' expression ';'
+            ;
+
+statement: assignment
+            | definition
+            | function
+            ;
+
+definition: ID (','ID)* ':' type ';'
+            ;
+
+funDefinition: (ID':' type(','ID':' type)*)?
+            ;
+
+funCall: ID '(' (expression (','expression)*)? ')' ';'
+            ;
+
+returnType: 'return' expression ';'
+            ;
+
+function: 'def' ID'(' funDefinition ')' ':' type? '{' (definition | funCall | assignment)* returnType?'}'
+            ;
+
+
+
+
 
 fragment LETTER: [a-zA-Z]
             ;

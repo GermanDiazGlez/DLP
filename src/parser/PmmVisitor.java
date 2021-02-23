@@ -16,4 +16,64 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitProgram(PmmParser.ProgramContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitType(PmmParser.TypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#cast}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCast(PmmParser.CastContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpression(PmmParser.ExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#assignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignment(PmmParser.AssignmentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(PmmParser.StatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#definition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefinition(PmmParser.DefinitionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#funDefinition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunDefinition(PmmParser.FunDefinitionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#funCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunCall(PmmParser.FunCallContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#returnType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReturnType(PmmParser.ReturnTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#function}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunction(PmmParser.FunctionContext ctx);
 }
