@@ -88,16 +88,6 @@ public interface PmmListener extends ParseTreeListener {
 	 */
 	void exitFunDefinition(PmmParser.FunDefinitionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PmmParser#structDef}.
-	 * @param ctx the parse tree
-	 */
-	void enterStructDef(PmmParser.StructDefContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link PmmParser#structDef}.
-	 * @param ctx the parse tree
-	 */
-	void exitStructDef(PmmParser.StructDefContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link PmmParser#arrayDef}.
 	 * @param ctx the parse tree
 	 */
@@ -187,16 +177,6 @@ public interface PmmListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitComparator(PmmParser.ComparatorContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link PmmParser#condition}.
-	 * @param ctx the parse tree
-	 */
-	void enterCondition(PmmParser.ConditionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link PmmParser#condition}.
-	 * @param ctx the parse tree
-	 */
-	void exitCondition(PmmParser.ConditionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PmmParser#andOr}.
 	 * @param ctx the parse tree

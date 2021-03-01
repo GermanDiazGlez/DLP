@@ -59,12 +59,6 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunDefinition(PmmParser.FunDefinitionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PmmParser#structDef}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStructDef(PmmParser.StructDefContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link PmmParser#arrayDef}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -118,12 +112,6 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitComparator(PmmParser.ComparatorContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PmmParser#condition}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCondition(PmmParser.ConditionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PmmParser#andOr}.
 	 * @param ctx the parse tree

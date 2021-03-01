@@ -9,7 +9,7 @@ type: 'int' | 'char' | 'double'
 varDefinition: ID (','ID)* ':' type ';'
             ;
 
-funParam: (ID':' type(','ID':' type)*)?
+funParam: ID':' type(','ID':' type)*
             ;
 
 funCall: ID '(' expList? ')' ';'
@@ -18,13 +18,10 @@ funCall: ID '(' expList? ')' ';'
 returnType: 'return' expression ';'
             ;
 
-funcBody: varDefinition* statement*
+funcBody: statement*
             ;
 
 funDefinition: 'def' ID'(' funParam? ')' ':' type? '{' funcBody '}'
-            ;
-
-structDef: (ID ':' type ';')*
             ;
 
 arrayDef: ID ':' ('[' INT_CONSTANT ']')+ type ';'
@@ -33,10 +30,10 @@ arrayDef: ID ':' ('[' INT_CONSTANT ']')+ type ';'
 array: ID ':' ('[' INT_CONSTANT ']')+ ';'
             ;
 
-arrayAssign: ID ('[' INT_CONSTANT ']')+ '=' expression
+arrayAssign: ID ('[' INT_CONSTANT ']')+ '=' expression ';'
             ;
 
-struct: ID ':' 'struct' '{' structDef '}' ';'
+struct: ID ':' 'struct' '{' varDefinition* '}' ';'
             ;
 
 cast: '(' type ')' expression
@@ -52,9 +49,6 @@ expList: expression (','expression)*
             ;
 
 comparator: ('<' | '>' | '<=' | '>=' | '!=' | '==')
-            ;
-
-condition: expression comparator expression
             ;
 
 andOr: ('&&' | '||')
@@ -81,10 +75,10 @@ expression: '(' expression ')'
 assignment: <assoc=right>expression '=' expression ';'
             ;
 
-bucleW: 'while' condition ':' '{' (bucleW | varDefinition | funCall | assignment | struct | ifElse)* '}'
+bucleW: 'while' expression ':' '{' (varDefinition | statement | funDefinition)* '}'
             ;
 
-ifElse: 'if'  (expression)? (andOr expression)* ':' statement? ('else' statement)?
+ifElse: 'if'  expression (andOr expression)* ':' statement? ('else' statement)?
             ;
 
 printInput: ('print' | 'input') expList ';'
@@ -92,6 +86,8 @@ printInput: ('print' | 'input') expList ';'
 
 statement: assignment
             | struct
+            | varDefinition
+            | funDefinition
             | funCall
             | arrayDef
             | array
