@@ -1,23 +1,54 @@
 grammar Pmm;	
 
-program: (expression | statement)+ EOF
+program: (funDefinition | varDefinition)+
        ;
 
 type: 'int' | 'char' | 'double'
             ;
 
+varDefinition: ID (','ID)* ':' type ';'
+            ;
+
+funParam: (ID':' type(','ID':' type)*)?
+            ;
+
+funCall: ID '(' expList? ')' ';'
+            ;
+
+returnType: 'return' expression ';'
+            ;
+
+funcBody: varDefinition* statement*
+            ;
+
+funDefinition: 'def' ID'(' funParam? ')' ':' type? '{' funcBody '}'
+            ;
+
 structDef: (ID ':' type ';')*
             ;
 
-vector: ID ':' ('[' INT_CONSTANT ']')+ type ';'
+arrayDef: ID ':' ('[' INT_CONSTANT ']')+ type ';'
             ;
 
-vectorAssign: ID ('[' INT_CONSTANT ']')+ '=' expression
+array: ID ':' ('[' INT_CONSTANT ']')+ ';'
+            ;
+
+arrayAssign: ID ('[' INT_CONSTANT ']')+ '=' expression
             ;
 
 struct: ID ':' 'struct' '{' structDef '}' ';'
             ;
+
 cast: '(' type ')' expression
+            ;
+
+unaryMinus: '-' expression
+            ;
+
+negation: '!' expression
+            ;
+
+expList: expression (','expression)*
             ;
 
 comparator: ('<' | '>' | '<=' | '>=' | '!=' | '==')
@@ -26,49 +57,49 @@ comparator: ('<' | '>' | '<=' | '>=' | '!=' | '==')
 condition: expression comparator expression
             ;
 
+andOr: ('&&' | '||')
+            ;
+
 expression: '(' expression ')'
-            | expression '[' expression ']'
+            | '[' expression ']'
+            | ID '(' expList? ')'
             | expression '.' ID
+            | expression '[' expression ']'
             | cast
-            | '!' expression
+            | unaryMinus
+            | negation
             | expression ('*' | '/' | '%') expression
             | expression ('+' | '-') expression
             | expression comparator expression
-            | expression ('&&' | '||') expression
+            | expression andOr expression
             | INT_CONSTANT
             | REAL_CONSTANT
             | CHAR_CONSTANT
             | ID
             ;
 
-assignment: expression '=' expression ';'
+assignment: <assoc=right>expression '=' expression ';'
             ;
 
-definition: ID (','ID)* ':' type ';'
+bucleW: 'while' condition ':' '{' (bucleW | varDefinition | funCall | assignment | struct | ifElse)* '}'
             ;
 
-funDefinition: (ID':' type(','ID':' type)*)?
+ifElse: 'if'  (expression)? (andOr expression)* ':' statement? ('else' statement)?
             ;
 
-funCall: ID '(' (expression (','expression)*)? ')' ';'
-            ;
-
-returnType: 'return' expression ';'
-            ;
-
-function: 'def' ID'(' funDefinition ')' ':' type? '{' (definition | funCall | assignment | struct)* returnType?'}'
-            ;
-
-bucleW: 'while' condition ':' '{' (bucleW | definition | funCall | assignment | struct)* '}'
+printInput: ('print' | 'input') expList ';'
             ;
 
 statement: assignment
             | struct
-            | definition
-            | function
-            | vector
-            | vectorAssign
+            | funCall
+            | arrayDef
+            | array
+            | arrayAssign
             | bucleW
+            | ifElse
+            | printInput
+            | returnType
             ;
 
 
