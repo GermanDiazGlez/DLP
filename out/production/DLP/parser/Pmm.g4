@@ -4,6 +4,8 @@ grammar Pmm;
 import ast.*;
 import ast.expression.*;
 import ast.program.*;
+import ast.program.type.*;
+import ast.program.definition.*;
 import ast.statement.*;
 }
 
@@ -46,20 +48,39 @@ expression returns [Expression ast]: '(' expression ')'
             | '(' type ')' expression
             | '-' expression
             | '!' expression
-            | expression ('*' | '/' | '%') expression
+            | exp1=expression OP=('*' | '/' | '%') exp2=expression { $ast = new Arithmetic(
+                          $exp1.ast.getLine(),
+                          $exp1.ast.getColumn(),
+                          $exp1.ast, $OP.text, $exp2.ast
+                          );
+            }
             | exp1=expression OP=('+' | '-') exp2=expression { $ast = new Arithmetic(
                           $exp1.ast.getLine(),
                           $exp1.ast.getColumn(),
-                          $exp1.ast, $OP.text, $exp2.ast); }
-            | expression ('<' | '>' | '<=' | '>=' | '!=' | '==') expression
-            | expression ('&&' | '||') expression
+                          $exp1.ast, $OP.text, $exp2.ast
+                          );
+            }
+            | exp1=expression OP=('<' | '>' | '<=' | '>=' | '!=' | '==') exp2=expression { $ast = new Comparison(
+                          $exp1.ast.getLine(),
+                          $exp1.ast.getColumn(),
+                          $exp1.ast, $OP.text, $exp2.ast
+                          );
+            }
+            | exp1=expression OP=('&&' | '||') exp2=expression { $ast = new Logical(
+                          $exp1.ast.getLine(),
+                          $exp1.ast.getColumn(),
+                          $exp1.ast, $OP.text, $exp2.ast
+                          );
+            }
             | INT_CONSTANT { $ast = new IntLiteral($INT_CONSTANT.getLine(),
                           $INT_CONSTANT.getCharPositionInLine()+1,
                           LexerHelper.lexemeToInt($INT_CONSTANT.text)); }
             | REAL_CONSTANT { $ast = new DoubleLiteral($REAL_CONSTANT.getLine(),
                           $REAL_CONSTANT.getCharPositionInLine()+1,
                           LexerHelper.lexemeToReal($REAL_CONSTANT.text)); }
-            | CHAR_CONSTANT
+            | CHAR_CONSTANT { $ast = new CharLiteral($CHAR_CONSTANT.getLine(),
+                          $CHAR_CONSTANT.getCharPositionInLine()+1,
+                          LexerHelper.lexemeToChar($CHAR_CONSTANT.text)); }
             | ID { $ast = new Variable($ID.getLine(), $ID.getCharPositionInLine()+1, $ID.text); }
             ;
 

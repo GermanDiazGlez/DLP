@@ -4,6 +4,8 @@ grammar Pmm;
 import ast.*;
 import ast.expression.*;
 import ast.program.*;
+import ast.program.type.*;
+import ast.program.definition.*;
 import ast.statement.*;
 }
 
@@ -45,14 +47,36 @@ expression returns [Expression ast]: '(' expression ')'
             | expression '[' expression ']'
             | '(' type ')' expression
             | '-' expression
-            | '!' expression
-            | expression ('*' | '/' | '%') expression
+            | CH='!' exp=expression { $ast = new Not(
+                          $CH.getLine(),
+                          $CH.getCharPositionInLine()+1,
+                          $exp.ast
+                          );
+            }
+            | exp1=expression OP=('*' | '/' | '%') exp2=expression { $ast = new Arithmetic(
+                          $exp1.ast.getLine(),
+                          $exp1.ast.getColumn(),
+                          $exp1.ast, $OP.text, $exp2.ast
+                          );
+            }
             | exp1=expression OP=('+' | '-') exp2=expression { $ast = new Arithmetic(
                           $exp1.ast.getLine(),
                           $exp1.ast.getColumn(),
-                          $exp1.ast, $OP.text, $exp2.ast); }
-            | expression ('<' | '>' | '<=' | '>=' | '!=' | '==') expression
-            | expression ('&&' | '||') expression
+                          $exp1.ast, $OP.text, $exp2.ast
+                          );
+            }
+            | exp1=expression OP=('<' | '>' | '<=' | '>=' | '!=' | '==') exp2=expression { $ast = new Comparison(
+                          $exp1.ast.getLine(),
+                          $exp1.ast.getColumn(),
+                          $exp1.ast, $OP.text, $exp2.ast
+                          );
+            }
+            | exp1=expression OP=('&&' | '||') exp2=expression { $ast = new Logical(
+                          $exp1.ast.getLine(),
+                          $exp1.ast.getColumn(),
+                          $exp1.ast, $OP.text, $exp2.ast
+                          );
+            }
             | INT_CONSTANT { $ast = new IntLiteral($INT_CONSTANT.getLine(),
                           $INT_CONSTANT.getCharPositionInLine()+1,
                           LexerHelper.lexemeToInt($INT_CONSTANT.text)); }

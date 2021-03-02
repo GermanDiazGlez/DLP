@@ -4,6 +4,8 @@ package parser;
 import ast.*;
 import ast.expression.*;
 import ast.program.*;
+import ast.program.type.*;
+import ast.program.definition.*;
 import ast.statement.*;
 
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
