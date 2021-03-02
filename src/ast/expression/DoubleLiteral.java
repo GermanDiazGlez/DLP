@@ -6,7 +6,12 @@ public class DoubleLiteral extends AbstractExpression {
 
     public double value;
 
-    public DoubleLiteral(int line, int column) {
+    public DoubleLiteral(int line, int column, double value) {
         super(line, column);
+        this.value = value;
+    }
+
+    public double getValue(){
+        return value;
     }
 }

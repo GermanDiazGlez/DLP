@@ -9,7 +9,9 @@ import ast.statement.*;
 
 /*
 
-program: (funDefinition | varDefinition)+
+program: (funDefinition | varDefinition)*
+        'def' 'main' '(' ')' ':' '{' varDefinition* statement* '}'
+        EOF
        ;
 
 */
@@ -31,9 +33,6 @@ varDefinition: ID (','ID)* ':' builtinType ';'
 funParam: ID':' builtinType(','ID':' builtinType)*
             ;
 
-funCall: ID '(' expList? ')' ';'
-            ;
-
 funDefinition: 'def' ID'(' funParam? ')' ':' builtinType? '{' statement* '}'
             ;
 
@@ -51,33 +50,29 @@ expression returns [Expression ast]: '(' expression ')'
             | exp1=expression OP=('+' | '-') exp2=expression { $ast = new Arithmetic(
                           $exp1.ast.getLine(),
                           $exp1.ast.getColumn(),
-                          $exp1.ast,
-                          $OP.text,
-                          $exp2.ast); }
+                          $exp1.ast, $OP.text, $exp2.ast); }
             | expression ('<' | '>' | '<=' | '>=' | '!=' | '==') expression
             | expression ('&&' | '||') expression
             | INT_CONSTANT { $ast = new IntLiteral($INT_CONSTANT.getLine(),
                           $INT_CONSTANT.getCharPositionInLine()+1,
                           LexerHelper.lexemeToInt($INT_CONSTANT.text)); }
-            | REAL_CONSTANT
-            | CHAR_CONSTANT
+            | REAL_CONSTANT { $ast = new DoubleLiteral($REAL_CONSTANT.getLine(),
+                          $REAL_CONSTANT.getCharPositionInLine()+1,
+                          LexerHelper.lexemeToReal($REAL_CONSTANT.text)); }
+            | CHAR_CONSTANT { $ast = new CharLiteral($CHAR_CONSTANT.getLine(),
+                          $CHAR_CONSTANT.getCharPositionInLine()+1,
+                          LexerHelper.lexemeToChar($CHAR_CONSTANT.text)); }
             | ID { $ast = new Variable($ID.getLine(), $ID.getCharPositionInLine()+1, $ID.text); }
             ;
 
 
-assignment: <assoc=right>expression '=' expression ';'
-            ;
-
-ifElse: 'if'  expression ':' (statement | statement*) ('else' statement | statement*)?
-            ;
-
-statement: ifElse
+statement: 'if'  expression ':' (statement | '{' statement* '}' ) ('else' statement | '{' statement* '}')?
             | 'while' expression ':' '{' statement* '}'
             | 'return' expression ';'
             | 'print' expList ';'
             | 'input' expList ';'
-            | assignment
-            | funCall
+            | <assoc=right>expression '=' expression ';'
+            | ID '(' expList? ')' ';'
             ;
 
 

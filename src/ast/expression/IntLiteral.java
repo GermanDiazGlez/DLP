@@ -8,6 +8,7 @@ public class IntLiteral extends AbstractExpression {
 
     public IntLiteral(int line, int column, int value) {
         super(line, column);
+        this.value = value;
     }
 
     public int getValue(){
