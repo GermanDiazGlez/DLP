@@ -1,6 +1,12 @@
 // Generated from C:/Users/germa/Documents/DLP/src/parser\Pmm.g4 by ANTLR 4.9.1
 package parser;
 
+import ast.*;
+import ast.expression.*;
+import ast.program.*;
+import ast.statement.*;
+
+
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;

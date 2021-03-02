@@ -1,101 +1,83 @@
-grammar Pmm;	
+grammar Pmm;
+
+@header{
+import ast.*;
+import ast.expression.*;
+import ast.program.*;
+import ast.statement.*;
+}
+
+/*
 
 program: (funDefinition | varDefinition)+
        ;
 
-type: 'int' | 'char' | 'double'
+*/
+
+program returns [Expression ast]: expression { $ast = $expression.ast; }
             ;
 
-varDefinition: ID (','ID)* ':' type ';'
+type: builtinType
+       | '[' INT_CONSTANT ']' type
+       | 'struct' '{' varDefinition* '}'
             ;
 
-funParam: ID':' type(','ID':' type)*
+builtinType: 'int' | 'char' | 'double'
+            ;
+
+varDefinition: ID (','ID)* ':' builtinType ';'
+            ;
+
+funParam: ID':' builtinType(','ID':' builtinType)*
             ;
 
 funCall: ID '(' expList? ')' ';'
             ;
 
-returnType: 'return' expression ';'
-            ;
-
-funcBody: statement*
-            ;
-
-funDefinition: 'def' ID'(' funParam? ')' ':' type? '{' funcBody '}'
-            ;
-
-arrayDef: ID ':' ('[' INT_CONSTANT ']')+ type ';'
-            ;
-
-array: ID ':' ('[' INT_CONSTANT ']')+ ';'
-            ;
-
-arrayAssign: ID ('[' INT_CONSTANT ']')+ '=' expression ';'
-            ;
-
-struct: ID ':' 'struct' '{' varDefinition* '}' ';'
-            ;
-
-cast: '(' type ')' expression
-            ;
-
-unaryMinus: '-' expression
-            ;
-
-negation: '!' expression
+funDefinition: 'def' ID'(' funParam? ')' ':' builtinType? '{' statement* '}'
             ;
 
 expList: expression (','expression)*
             ;
 
-comparator: ('<' | '>' | '<=' | '>=' | '!=' | '==')
-            ;
-
-andOr: ('&&' | '||')
-            ;
-
-expression: '(' expression ')'
-            | '[' expression ']'
+expression returns [Expression ast]: '(' expression ')'
             | ID '(' expList? ')'
             | expression '.' ID
             | expression '[' expression ']'
-            | cast
-            | unaryMinus
-            | negation
+            | '(' type ')' expression
+            | '-' expression
+            | '!' expression
             | expression ('*' | '/' | '%') expression
-            | expression ('+' | '-') expression
-            | expression comparator expression
-            | expression andOr expression
-            | INT_CONSTANT
+            | exp1=expression OP=('+' | '-') exp2=expression { $ast = new Arithmetic(
+                          $exp1.ast.getLine(),
+                          $exp1.ast.getColumn(),
+                          $exp1.ast,
+                          $OP.text,
+                          $exp2.ast); }
+            | expression ('<' | '>' | '<=' | '>=' | '!=' | '==') expression
+            | expression ('&&' | '||') expression
+            | INT_CONSTANT { $ast = new IntLiteral($INT_CONSTANT.getLine(),
+                          $INT_CONSTANT.getCharPositionInLine()+1,
+                          LexerHelper.lexemeToInt($INT_CONSTANT.text)); }
             | REAL_CONSTANT
             | CHAR_CONSTANT
-            | ID
+            | ID { $ast = new Variable($ID.getLine(), $ID.getCharPositionInLine()+1, $ID.text); }
             ;
+
 
 assignment: <assoc=right>expression '=' expression ';'
             ;
 
-bucleW: 'while' expression ':' '{' (varDefinition | statement | funDefinition)* '}'
+ifElse: 'if'  expression ':' (statement | statement*) ('else' statement | statement*)?
             ;
 
-ifElse: 'if'  expression (andOr expression)* ':' statement? ('else' statement)?
-            ;
-
-printInput: ('print' | 'input') expList ';'
-            ;
-
-statement: assignment
-            | struct
-            | varDefinition
-            | funDefinition
+statement: ifElse
+            | 'while' expression ':' '{' statement* '}'
+            | 'return' expression ';'
+            | 'print' expList ';'
+            | 'input' expList ';'
+            | assignment
             | funCall
-            | arrayDef
-            | array
-            | arrayAssign
-            | bucleW
-            | ifElse
-            | printInput
-            | returnType
             ;
 
 

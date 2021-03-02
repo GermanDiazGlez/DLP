@@ -1,7 +1,21 @@
-grammar Pmm;	
+grammar Pmm;
+
+@header{
+import ast.*;
+import ast.expression.*;
+import ast.program.*;
+import ast.statement.*;
+}
+
+/*
 
 program: (funDefinition | varDefinition)+
        ;
+
+*/
+
+program returns [Expression ast]: expression { $ast = $expression.ast; }
+            ;
 
 type: 'int' | 'char' | 'double'
             ;
@@ -54,7 +68,7 @@ comparator: ('<' | '>' | '<=' | '>=' | '!=' | '==')
 andOr: ('&&' | '||')
             ;
 
-expression: '(' expression ')'
+expression returns [Expression ast]: '(' expression ')'
             | '[' expression ']'
             | ID '(' expList? ')'
             | expression '.' ID
@@ -63,13 +77,20 @@ expression: '(' expression ')'
             | unaryMinus
             | negation
             | expression ('*' | '/' | '%') expression
-            | expression ('+' | '-') expression
+            | exp1=expression OP=('+' | '-') exp2=expression { $ast = new Arithmetic(
+                          $exp1.ast.getLine(),
+                          $exp1.ast.getColumn(),
+                          $exp1.ast,
+                          $OP.text,
+                          $exp2.ast); }
             | expression comparator expression
             | expression andOr expression
-            | INT_CONSTANT
+            | INT_CONSTANT { $ast = new IntLiteral($INT_CONSTANT.getLine(),
+                          $INT_CONSTANT.getCharPositionInLine()+1,
+                          LexerHelper.lexemeToInt($INT_CONSTANT.getValue())); }
             | REAL_CONSTANT
             | CHAR_CONSTANT
-            | ID
+            | ID { $ast = new Variable($ID.getLine(), $ID.getCharPositionInLine()+1, $ID.text); }
             ;
 
 assignment: <assoc=right>expression '=' expression ';'
