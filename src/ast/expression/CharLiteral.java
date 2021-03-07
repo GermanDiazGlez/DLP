@@ -2,7 +2,7 @@ package ast.expression;
 
 import ast.expression.util.AbstractExpression;
 
-public class CharLiteral extends AbstractExpression {
+public class CharLiteral extends AbstractExpression implements Expression{
 
     public char value;
 

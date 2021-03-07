@@ -1,12 +1,15 @@
 package ast.program.type;
 
-public class ArrayType implements Type{
+import ast.AbstractNodeAST;
+
+public class ArrayType extends AbstractNodeAST implements Type{
 
     public int size;
     public Type type;
 
-    public ArrayType(int size, Type type){
-        this.size = size;
+    public ArrayType(int line, int column, Type type, int size){
+        super(line, column);
         this.type = type;
+        this.size = size;
     }
 }

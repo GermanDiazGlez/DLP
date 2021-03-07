@@ -2,7 +2,7 @@ package ast.expression;
 
 import ast.expression.util.AbstractExpression;
 
-public class ArrayAccess extends AbstractExpression {
+public class ArrayAccess extends AbstractExpression implements Expression{
 
     private Expression left;
     private Expression right;

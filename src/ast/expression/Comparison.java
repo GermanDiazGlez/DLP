@@ -2,7 +2,7 @@ package ast.expression;
 
 import ast.expression.util.AbstractExpression;
 
-public class Comparison extends AbstractExpression {
+public class Comparison extends AbstractExpression implements Expression{
 
     public String operator;
     private Expression left;

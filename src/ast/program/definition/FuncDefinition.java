@@ -1,32 +1,36 @@
 package ast.program.definition;
 
+import ast.expression.Variable;
+import ast.program.definition.util.AbstractDefinition;
+import ast.program.type.FunctionType;
 import ast.program.type.Type;
+import ast.program.type.VoidType;
 import ast.statement.Statement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FuncDefinition implements Definition{
+public class FuncDefinition extends AbstractDefinition implements Definition{
     private List<Statement> statementList = new ArrayList<>();
+    private List<VarDefinition> variableList;
     private Type type;
     private String name;
 
-    public FuncDefinition(Type type, String name, List<Statement> statementList){
-        this.type = type;
-        this.name = name;
-        for(Statement st : statementList){
-            this.statementList.add(st);
-        }
+    public FuncDefinition(int line, int column, FunctionType type, String name,
+                          List<VarDefinition> variableList, List<Statement> statementList){
+        super(line, column, type, name);
+        this.statementList = statementList;
+        this.variableList = variableList;
     }
 
-    @Override
-    public Type getType() {
-        return type;
+    public FuncDefinition(int line, int column,
+                              List<VarDefinition> variableList,
+                              List<Statement> statementList) {
+        super(line, column, new FunctionType(line, column, VoidType.getInstance(), new ArrayList<>()), "main");
+        this.statementList = statementList;
+        this.variableList = variableList;
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
+
 
 }

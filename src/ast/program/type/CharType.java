@@ -1,11 +1,17 @@
 package ast.program.type;
 
-public class CharType implements Type{
-    public CharType charType;
+import ast.AbstractNodeAST;
 
-    public CharType getType(){
-        if(charType==null){
-            charType = new CharType();
+public class CharType extends AbstractNodeAST implements Type{
+    private static CharType charType = null;
+
+    private CharType(int line, int column) {
+        super(line, column);
+    }
+
+    public static CharType getInstance() {
+        if (charType == null) {
+            charType = new CharType(0,0);
         }
         return charType;
     }

@@ -2,7 +2,7 @@ package ast.expression;
 
 import ast.expression.util.AbstractExpression;
 
-public class DoubleLiteral extends AbstractExpression {
+public class DoubleLiteral extends AbstractExpression implements Expression{
 
     public double value;
 

@@ -1,10 +1,11 @@
 package ast.expression;
 
 import ast.expression.util.AbstractExpression;
+import ast.statement.Statement;
 
 import java.util.List;
 
-public class Function extends AbstractExpression {
+public class Function extends AbstractExpression implements Expression, Statement {
 
     private Variable variable;
     private List<Expression> expressions;
