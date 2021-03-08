@@ -165,16 +165,6 @@ public interface PmmListener extends ParseTreeListener {
 	 */
 	void exitExpression(PmmParser.ExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PmmParser#block}.
-	 * @param ctx the parse tree
-	 */
-	void enterBlock(PmmParser.BlockContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link PmmParser#block}.
-	 * @param ctx the parse tree
-	 */
-	void exitBlock(PmmParser.BlockContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link PmmParser#statement}.
 	 * @param ctx the parse tree
 	 */
@@ -184,6 +174,16 @@ public interface PmmListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStatement(PmmParser.StatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PmmParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock(PmmParser.BlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PmmParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock(PmmParser.BlockContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PmmParser#ifStatement}.
 	 * @param ctx the parse tree
@@ -204,16 +204,6 @@ public interface PmmListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitWhileStatement(PmmParser.WhileStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link PmmParser#returnStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterReturnStatement(PmmParser.ReturnStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link PmmParser#returnStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitReturnStatement(PmmParser.ReturnStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PmmParser#give_params}.
 	 * @param ctx the parse tree

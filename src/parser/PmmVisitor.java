@@ -108,17 +108,17 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpression(PmmParser.ExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PmmParser#block}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBlock(PmmParser.BlockContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link PmmParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitStatement(PmmParser.StatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBlock(PmmParser.BlockContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PmmParser#ifStatement}.
 	 * @param ctx the parse tree
@@ -131,12 +131,6 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitWhileStatement(PmmParser.WhileStatementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PmmParser#returnStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitReturnStatement(PmmParser.ReturnStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PmmParser#give_params}.
 	 * @param ctx the parse tree
