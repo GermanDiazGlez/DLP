@@ -2,7 +2,7 @@ package ast.expression;
 
 import ast.expression.util.AbstractExpression;
 
-public class Variable extends AbstractExpression {
+public class Variable extends AbstractExpression implements Expression{
 
     public String text;
 

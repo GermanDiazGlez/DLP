@@ -55,6 +55,16 @@ public interface PmmListener extends ParseTreeListener {
 	 */
 	void exitType(PmmParser.TypeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link PmmParser#fields}.
+	 * @param ctx the parse tree
+	 */
+	void enterFields(PmmParser.FieldsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PmmParser#fields}.
+	 * @param ctx the parse tree
+	 */
+	void exitFields(PmmParser.FieldsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link PmmParser#builtinType}.
 	 * @param ctx the parse tree
 	 */
@@ -115,6 +125,16 @@ public interface PmmListener extends ParseTreeListener {
 	 */
 	void exitFunParam(PmmParser.FunParamContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link PmmParser#giveParams}.
+	 * @param ctx the parse tree
+	 */
+	void enterGiveParams(PmmParser.GiveParamsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PmmParser#giveParams}.
+	 * @param ctx the parse tree
+	 */
+	void exitGiveParams(PmmParser.GiveParamsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link PmmParser#statements}.
 	 * @param ctx the parse tree
 	 */
@@ -134,16 +154,6 @@ public interface PmmListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunDefinition(PmmParser.FunDefinitionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link PmmParser#expList}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpList(PmmParser.ExpListContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link PmmParser#expList}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpList(PmmParser.ExpListContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PmmParser#expression}.
 	 * @param ctx the parse tree
@@ -165,35 +175,35 @@ public interface PmmListener extends ParseTreeListener {
 	 */
 	void exitStatement(PmmParser.StatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PmmParser#if_statement}.
+	 * Enter a parse tree produced by {@link PmmParser#ifStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterIf_statement(PmmParser.If_statementContext ctx);
+	void enterIfStatement(PmmParser.IfStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PmmParser#if_statement}.
+	 * Exit a parse tree produced by {@link PmmParser#ifStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitIf_statement(PmmParser.If_statementContext ctx);
+	void exitIfStatement(PmmParser.IfStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PmmParser#while_statement}.
+	 * Enter a parse tree produced by {@link PmmParser#whileStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterWhile_statement(PmmParser.While_statementContext ctx);
+	void enterWhileStatement(PmmParser.WhileStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PmmParser#while_statement}.
+	 * Exit a parse tree produced by {@link PmmParser#whileStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitWhile_statement(PmmParser.While_statementContext ctx);
+	void exitWhileStatement(PmmParser.WhileStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PmmParser#return_statement}.
+	 * Enter a parse tree produced by {@link PmmParser#returnStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterReturn_statement(PmmParser.Return_statementContext ctx);
+	void enterReturnStatement(PmmParser.ReturnStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PmmParser#return_statement}.
+	 * Exit a parse tree produced by {@link PmmParser#returnStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitReturn_statement(PmmParser.Return_statementContext ctx);
+	void exitReturnStatement(PmmParser.ReturnStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PmmParser#give_params}.
 	 * @param ctx the parse tree

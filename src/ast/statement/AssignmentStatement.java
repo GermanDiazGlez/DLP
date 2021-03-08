@@ -3,7 +3,7 @@ package ast.statement;
 import ast.expression.Expression;
 import ast.statement.util.AbstractStatement;
 
-public class AssignmentStatement extends AbstractStatement {
+public class AssignmentStatement extends AbstractStatement implements  Statement{
 
     private Expression leftExpression;
     private Expression rightExpression;

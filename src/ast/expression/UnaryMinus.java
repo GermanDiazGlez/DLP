@@ -2,7 +2,7 @@ package ast.expression;
 
 import ast.expression.util.AbstractExpression;
 
-public class UnaryMinus extends AbstractExpression {
+public class UnaryMinus extends AbstractExpression implements Expression{
 
     private Expression expression;
 

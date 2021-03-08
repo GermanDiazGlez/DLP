@@ -42,6 +42,12 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitType(PmmParser.TypeContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link PmmParser#fields}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFields(PmmParser.FieldsContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link PmmParser#builtinType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -78,6 +84,12 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunParam(PmmParser.FunParamContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link PmmParser#giveParams}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGiveParams(PmmParser.GiveParamsContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link PmmParser#statements}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -89,12 +101,6 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunDefinition(PmmParser.FunDefinitionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PmmParser#expList}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpList(PmmParser.ExpListContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PmmParser#expression}.
 	 * @param ctx the parse tree
@@ -108,23 +114,23 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatement(PmmParser.StatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PmmParser#if_statement}.
+	 * Visit a parse tree produced by {@link PmmParser#ifStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIf_statement(PmmParser.If_statementContext ctx);
+	T visitIfStatement(PmmParser.IfStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PmmParser#while_statement}.
+	 * Visit a parse tree produced by {@link PmmParser#whileStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitWhile_statement(PmmParser.While_statementContext ctx);
+	T visitWhileStatement(PmmParser.WhileStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PmmParser#return_statement}.
+	 * Visit a parse tree produced by {@link PmmParser#returnStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitReturn_statement(PmmParser.Return_statementContext ctx);
+	T visitReturnStatement(PmmParser.ReturnStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PmmParser#give_params}.
 	 * @param ctx the parse tree

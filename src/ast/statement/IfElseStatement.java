@@ -6,10 +6,10 @@ import ast.statement.util.AbstractStatement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IfElseStatement extends AbstractStatement {
+public class IfElseStatement extends AbstractStatement implements Statement{
 
-    private List<Statement> ifStatementList = new ArrayList<>();
-    private List<Statement> elseStatementList = new ArrayList<>();
+    private List<Statement> ifStatementList;
+    private List<Statement> elseStatementList;
     private Expression expression;
 
     public IfElseStatement(int line, int column, Expression expression, List<Statement> ifStatementList, List<Statement> elseStatementList) {
@@ -17,6 +17,13 @@ public class IfElseStatement extends AbstractStatement {
         this.expression = expression;
         this.ifStatementList = ifStatementList;
         this.elseStatementList = elseStatementList;
+    }
+
+    public IfElseStatement(int line, int column, Expression expression, List<Statement> ifStatementListd) {
+        super(line, column);
+        this.expression = expression;
+        this.ifStatementList = ifStatementList;
+        this.elseStatementList = new ArrayList<Statement>();
     }
 
     /**

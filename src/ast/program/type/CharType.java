@@ -1,8 +1,9 @@
 package ast.program.type;
 
 import ast.AbstractNodeAST;
+import ast.program.type.util.AbstractType;
 
-public class CharType extends AbstractNodeAST implements Type{
+public class CharType extends AbstractType implements Type{
     private static CharType charType = null;
 
     private CharType(int line, int column) {

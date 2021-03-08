@@ -6,7 +6,7 @@ import ast.statement.util.AbstractStatement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WhileStatement extends AbstractStatement {
+public class WhileStatement extends AbstractStatement implements Statement{
 
     private List<Statement> whileStatementList = new ArrayList<>();
     private Expression expression;

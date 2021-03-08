@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FuncDefinition extends AbstractDefinition implements Definition{
-    private List<Statement> statementList = new ArrayList<>();
+    private List<Statement> statementList;
     private List<VarDefinition> variableList;
     private Type type;
     private String name;
@@ -24,8 +24,7 @@ public class FuncDefinition extends AbstractDefinition implements Definition{
     }
 
     public FuncDefinition(int line, int column,
-                              List<VarDefinition> variableList,
-                              List<Statement> statementList) {
+                              List<VarDefinition> variableList, List<Statement> statementList) {
         super(line, column, new FunctionType(line, column, VoidType.getInstance(), new ArrayList<>()), "main");
         this.statementList = statementList;
         this.variableList = variableList;

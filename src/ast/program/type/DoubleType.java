@@ -1,8 +1,9 @@
 package ast.program.type;
 
 import ast.AbstractNodeAST;
+import ast.program.type.util.AbstractType;
 
-public class DoubleType extends AbstractNodeAST implements Type{
+public class DoubleType extends AbstractType implements Type{
     private static DoubleType doubleType = null;
 
     private DoubleType(int line, int column) {

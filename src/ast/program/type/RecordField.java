@@ -1,11 +1,15 @@
 package ast.program.type;
 
-public class RecordField implements Type{
+import ast.AbstractNodeAST;
+import ast.program.type.util.AbstractType;
+
+public class RecordField extends AbstractType implements Type{
 
     private String name;
     private Type type;
 
-    public RecordField(String name, Type type){
+    public RecordField(int line, int column, String name, Type type){
+        super(line, column);
         this.name = name;
         this.type = type;
     }

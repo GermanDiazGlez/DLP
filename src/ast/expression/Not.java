@@ -2,7 +2,7 @@ package ast.expression;
 
 import ast.expression.util.AbstractExpression;
 
-public class Not extends AbstractExpression {
+public class Not extends AbstractExpression implements Expression{
 
     private Expression expression;
 

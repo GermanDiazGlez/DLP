@@ -1,8 +1,9 @@
 package ast.program.type;
 
 import ast.AbstractNodeAST;
+import ast.program.type.util.AbstractType;
 
-public class IntType extends AbstractNodeAST implements Type{
+public class IntType extends AbstractType implements Type{
     private static IntType intType = null;
 
     private IntType(int line, int column) {
