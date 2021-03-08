@@ -165,6 +165,16 @@ public interface PmmListener extends ParseTreeListener {
 	 */
 	void exitExpression(PmmParser.ExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link PmmParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock(PmmParser.BlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PmmParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock(PmmParser.BlockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link PmmParser#statement}.
 	 * @param ctx the parse tree
 	 */

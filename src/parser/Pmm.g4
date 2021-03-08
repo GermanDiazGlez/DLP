@@ -89,6 +89,14 @@ statements returns [List<Statement> ast = new ArrayList<>()]: (s=statement {$ast
     ;
 
 funDefinition returns [FuncDefinition ast]:
+            d='def' i=ID p=funParam ':' {Type type = VoidType.getInstance();}  (bt=builtinType {type = $bt.ast;})? '{' vd=varDefinitions st=statements '}'
+            { $ast = new FuncDefinition($d.getLine(), $d.getCharPositionInLine()+1,
+            new FunctionType($bt.start.getLine(), $bt.start.getCharPositionInLine()+1, type, $p.ast),
+            $i.text, $vd.ast, $st.ast); }
+            ;
+
+/*
+funDefinition returns [FuncDefinition ast]:
             d='def' i=ID p=funParam ':' bt=builtinType? '{' vd=varDefinitions st=statements '}'
             { $ast = new FuncDefinition($d.getLine(), $d.getCharPositionInLine()+1,
             new FunctionType($d.getLine(), $d.getCharPositionInLine()+1, $bt.ast, $p.ast),
@@ -99,7 +107,7 @@ funDefinition returns [FuncDefinition ast]:
             new FunctionType($d.getLine(), $d.getCharPositionInLine() + 1, VoidType.getInstance(), $p.ast),
             $i.text, $vd.ast, $st.ast);}
             ;
-/*
+
 expList returns [List<Expression> ast = new ArrayList<>()]:
                     (exp1=expression (','expression)* { $ast.add($exp1.ast); } )
             ;
@@ -192,8 +200,7 @@ statement returns [List<Statement> ast = new ArrayList<>()]:
             ;
 
 
-block returns [List<Statement> ast = new ArrayList<>()]: s1=statement {$ast.add($s1.ast);} | ('{' s2=statement* '}' {$ast.add($s2.ast);})*
-            ;
+
 
 ifStatement returns [List<Statement> ast = new ArrayList<Statement>()]:
     i='if' exp=expression ':' b1=block 'else' b2=block
@@ -210,6 +217,9 @@ ifStatement returns [List<Statement> ast = new ArrayList<Statement>()]:
 | wh='while' exp=expression ':' b=block
             {$ast.add(new WhileStatement($wh.getLine(), $wh.getCharPositionInLine()+1, $exp.ast, $b.ast));}
 */
+
+block returns [List<Statement> ast = new ArrayList<>()]: s1=statement {$ast.add($s1.ast);} | ('{' s2=statement* '}' {$ast.add($s2.ast);})*
+            ;
 
 statement returns [List<Statement> ast = new ArrayList<>()]:
     i=ifStatement
