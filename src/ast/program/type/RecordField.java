@@ -3,7 +3,7 @@ package ast.program.type;
 import ast.AbstractNodeAST;
 import ast.program.type.util.AbstractType;
 
-public class RecordField extends AbstractType implements Type{
+public class RecordField extends AbstractNodeAST{
 
     private String name;
     private Type type;
