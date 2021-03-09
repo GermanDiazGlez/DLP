@@ -479,8 +479,27 @@ public class PmmParser extends Parser {
 				((FieldsContext)_localctx).bt = builtinType();
 				setState(86);
 				match(T__10);
-				 for(String id : ((FieldsContext)_localctx).i.ast) {
-				            _localctx.ast.add(new RecordField((((FieldsContext)_localctx).i!=null?(((FieldsContext)_localctx).i.start):null).getLine(), (((FieldsContext)_localctx).i!=null?(((FieldsContext)_localctx).i.start):null).getCharPositionInLine()+1, id, ((FieldsContext)_localctx).bt.ast));}
+
+				            List<String> alreadyAdded = new ArrayList<>();
+				            for(String id : ((FieldsContext)_localctx).i.ast)
+				            {
+				                if(alreadyAdded.contains(id)){
+				                    new ErrorType((((FieldsContext)_localctx).i!=null?(((FieldsContext)_localctx).i.start):null).getLine(), (((FieldsContext)_localctx).i!=null?(((FieldsContext)_localctx).i.start):null).getCharPositionInLine()+1, " , duplicated field " + id );
+				                }
+				                else{
+				                    boolean repeated = false;
+				                    for(RecordField field: _localctx.ast){
+				                        if(field.getName().equals(id)){
+				                            new ErrorType((((FieldsContext)_localctx).i!=null?(((FieldsContext)_localctx).i.start):null).getLine(), (((FieldsContext)_localctx).i!=null?(((FieldsContext)_localctx).i.start):null).getCharPositionInLine()+1, " , duplicated field " + id );
+				                            repeated = true;
+				                            break;
+				                        }
+				                    }
+				                    if(!repeated){
+				                        _localctx.ast.add(new RecordField((((FieldsContext)_localctx).i!=null?(((FieldsContext)_localctx).i.start):null).getLine(), (((FieldsContext)_localctx).i!=null?(((FieldsContext)_localctx).i.start):null).getCharPositionInLine()+1, id, ((FieldsContext)_localctx).bt.ast));
+				                    }
+				                }
+				            }
 				        
 				}
 				}

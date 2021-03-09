@@ -33,8 +33,27 @@ type returns [Type ast]: (bt=builtinType { $ast = $bt.ast; }
             ;
 
 fields returns [List<RecordField> ast = new ArrayList<>()]: (i=ids ':' bt=builtinType ';'
-        { for(String id : $i.ast) {
-            $ast.add(new RecordField($i.start.getLine(), $i.start.getCharPositionInLine()+1, id, $bt.ast));}
+        {
+            List<String> alreadyAdded = new ArrayList<>();
+            for(String id : $i.ast)
+            {
+                if(alreadyAdded.contains(id)){
+                    new ErrorType($i.start.getLine(), $i.start.getCharPositionInLine()+1, " , duplicated field " + id );
+                }
+                else{
+                    boolean repeated = false;
+                    for(RecordField field: $ast){
+                        if(field.getName().equals(id)){
+                            new ErrorType($i.start.getLine(), $i.start.getCharPositionInLine()+1, " , duplicated field " + id );
+                            repeated = true;
+                            break;
+                        }
+                    }
+                    if(!repeated){
+                        $ast.add(new RecordField($i.start.getLine(), $i.start.getCharPositionInLine()+1, id, $bt.ast));
+                    }
+                }
+            }
         })*
             ;
 
