@@ -13,25 +13,14 @@ program returns [Program ast]: d=definitions m=mainMethod EOF
                 { $ast = new Program($d.start.getLine(), $d.start.getCharPositionInLine()+1, $d.ast, $m.ast); }
        ;
 
-mainMethod returns [FuncDefinition ast]: d='def' m='main' '(' ')' ':' '{' v=varDefinitions s=statements '}'
-        {$ast = new FuncDefinition($d.getLine(), $d.getCharPositionInLine()+1, $v.ast, $s.ast);}
+mainMethod returns [FuncDefinition ast]: d='def' m='main' '(' ')' ':' '{' s=statements '}'
+        {$ast = new FuncDefinition($d.getLine(), $d.getCharPositionInLine()+1, $s.ast);}
     ;
 
 definitions returns [List<Definition> ast = new ArrayList<>()]:
             ( vd=varDefinition {$ast.addAll($vd.ast);}
             | fd=funDefinition {$ast.add($fd.ast);})*
     ;
-/*
-program: (funDefinition | varDefinition)*
-        'def' 'main' '(' ')' ':' '{' varDefinition* statement* '}'
-        EOF
-       ;
-
-program returns [Expression ast]: expression { $ast = $expression.ast; }
-            ;
-*/
-
-
 
 type returns [Type ast]: (bt=builtinType { $ast = $bt.ast; }
        | '[' a=INT_CONSTANT ']' t=type { $ast = new ArrayType($a.getLine(),
@@ -47,7 +36,7 @@ fields returns [List<RecordField> ast = new ArrayList<>()]: (i=ids ':' bt=builti
         { for(String id : $i.ast) {
             $ast.add(new RecordField($i.start.getLine(), $i.start.getCharPositionInLine()+1, id, $bt.ast));}
         })*
-    ;
+            ;
 
 builtinType returns [Type ast]: ('int' { $ast = IntType.getInstance(); }
                                 | 'char' { $ast = CharType.getInstance(); }
@@ -55,7 +44,7 @@ builtinType returns [Type ast]: ('int' { $ast = IntType.getInstance(); }
             ;
 
 varDefinitions returns [List<VarDefinition> ast = new ArrayList<>()]: (v=varDefinition {$ast.addAll($v.ast);})*
-         ;
+            ;
 
 varDefinition returns [List<VarDefinition> ast = new ArrayList<>()]:
             (i=ids ':' t=type ';' {
@@ -69,11 +58,11 @@ varDefinition returns [List<VarDefinition> ast = new ArrayList<>()]:
             ;
 
 ids returns [List<String> ast = new ArrayList<String>()]: i=ID {$ast.add($i.text);} (','j=ID {$ast.add($j.text);})*
-    ;
+            ;
 
 param returns [VarDefinition ast]: i=ID ':' bt=builtinType
-        { $ast = new VarDefinition($i.getLine(), $i.getCharPositionInLine() + 1, $bt.ast, $i.text);}
-    ;
+            { $ast = new VarDefinition($i.getLine(), $i.getCharPositionInLine() + 1, $bt.ast, $i.text);}
+            ;
 
 funParam returns [List<VarDefinition> ast = new ArrayList<>()]:
             '('p1=param {$ast.add($p1.ast);} (','p2=param {$ast.add($p2.ast);})*')'
@@ -81,37 +70,19 @@ funParam returns [List<VarDefinition> ast = new ArrayList<>()]:
             ;
 
 giveParams returns [List<Expression> ast = new ArrayList<>()]:
-                    '('exp1=expression {$ast.add($exp1.ast);} (','exp2=expression {$ast.add($exp2.ast);})*')'
-                    | '('')'
-                    ;
+            '('exp1=expression {$ast.add($exp1.ast);} (','exp2=expression {$ast.add($exp2.ast);})*')'
+            | '('')'
+            ;
 
 statements returns [List<Statement> ast = new ArrayList<>()]: (s=statement {$ast.addAll($s.ast);})*
-    ;
+            ;
 
 funDefinition returns [FuncDefinition ast]:
-            d='def' i=ID p=funParam c=':' {Type type = VoidType.getInstance();}  (bt=builtinType {type = $bt.ast;})? '{' vd=varDefinitions st=statements '}'
+            d='def' i=ID p=funParam c=':' {Type type = VoidType.getInstance();}  (bt=builtinType {type = $bt.ast;})? '{' st=statements '}'
             { $ast = new FuncDefinition($d.getLine(), $d.getCharPositionInLine()+1,
             new FunctionType($c.getLine(), $c.getCharPositionInLine()+1, type, $p.ast),
-            $i.text, $vd.ast, $st.ast); }
+            $i.text, $st.ast); }
             ;
-
-/*
-funDefinition returns [FuncDefinition ast]:
-            d='def' i=ID p=funParam ':' bt=builtinType? '{' vd=varDefinitions st=statements '}'
-            { $ast = new FuncDefinition($d.getLine(), $d.getCharPositionInLine()+1,
-            new FunctionType($d.getLine(), $d.getCharPositionInLine()+1, $bt.ast, $p.ast),
-            $i.text, $vd.ast, $st.ast); }
-
-            | d='def' i=ID p=funParam ':' '{' vd=varDefinitions st=statements'}'
-            {$ast = new FuncDefinition($d.getLine(), $d.getCharPositionInLine() + 1,
-            new FunctionType($d.getLine(), $d.getCharPositionInLine() + 1, VoidType.getInstance(), $p.ast),
-            $i.text, $vd.ast, $st.ast);}
-            ;
-
-expList returns [List<Expression> ast = new ArrayList<>()]:
-                    (exp1=expression (','expression)* { $ast.add($exp1.ast); } )
-            ;
-*/
 
 expression returns [Expression ast]: '(' exp=expression ')' { $ast = $exp.ast; }
             | i=ID gp=giveParams { $ast = new Function(
@@ -188,53 +159,6 @@ expression returns [Expression ast]: '(' exp=expression ')' { $ast = $exp.ast; }
             | ID { $ast = new Variable($ID.getLine(), $ID.getCharPositionInLine()+1, $ID.text); }
             ;
 
-/*
-statement returns [List<Statement> ast = new ArrayList<>()]:
-            'if'  expression ':' block ('else' block)?
-            | 'while' expression ':' block
-            | 'return' expression ';'
-            | 'print' expList ';'
-            | 'input' expList ';'
-            | <assoc=right>expression '=' expression ';'
-            | ID '(' expList? ')' ';'
-            ;
-
-ifStatement returns [List<Statement> ast = new ArrayList<Statement>()]:
-    i='if' exp=expression ':' '{' s1=statements '}' 'else' '{' s2=statements '}'
-    {
-        $ast.add(new IfElseStatement($i.getLine(), $i.getCharPositionInLine()+1, $exp.ast, $s1.ast, $s2.ast) );
-    }
-
-    | i='if' exp=expression ':' st1=statement 'else' st2=statement
-    {
-        $ast.add(new IfElseStatement($i.getLine(), $i.getCharPositionInLine() + 1, $exp.ast, $st1.ast, $st2.ast) );
-    }
-
-    | i='if' e=expression ':' '{' s1=statements '}' 'else' st2=statement
-            {$ast.add(new IfElseStatement($i.getLine(), $i.getCharPositionInLine() + 1, $e.ast, $s1.ast, $st2.ast) );}
-
-    | i='if' e=expression ':' st1=statement 'else' '{' s2=statements '}'
-            {$ast.add(new IfElseStatement($i.getLine(), $i.getCharPositionInLine() + 1, $e.ast, $st1.ast, $s2.ast) );}
-
-    | i='if' e=expression ':' '{' s1=statements '}'
-        {$ast.add(new IfElseStatement($i.getLine(), $i.getCharPositionInLine() + 1, $e.ast, $s1.ast) );}
-
-    | i='if' e=expression ':' st1=statement
-        {$ast.add(new IfElseStatement($i.getLine(), $i.getCharPositionInLine() + 1, $e.ast, $st1.ast) );}
-    ;
-
-
-| wh='while' exp=expression ':' b=block
-            {$ast.add(new WhileStatement($wh.getLine(), $wh.getCharPositionInLine()+1, $exp.ast, $b.ast));}
-
-returnStatement returns [ReturnStatement ast]: r='return' e=expression ';'
-        {$ast = new ReturnStatement($r.getLine(), $r.getCharPositionInLine() + 1, $e.ast);}
-    ;
-
-*/
-
-
-
 statement returns [List<Statement> ast = new ArrayList<>()]:
     i=ifStatement
         {$ast.addAll($i.ast);}
@@ -246,10 +170,10 @@ statement returns [List<Statement> ast = new ArrayList<>()]:
         {$ast.add(new ReturnStatement($r.getLine(), $r.getCharPositionInLine()+1, $exp.ast));}
 
     | p='print' exp1=expression {$ast.add(new PrintStatement($p.getLine(), $p.getCharPositionInLine() + 1, $exp1.ast));}
-            (','exp2=expression {$ast.add(new PrintStatement($p.getLine(), $p.getCharPositionInLine() + 1, $exp2.ast));})* ';'
+        (','exp2=expression {$ast.add(new PrintStatement($p.getLine(), $p.getCharPositionInLine() + 1, $exp2.ast));})* ';'
 
     | p='input' exp1=expression {$ast.add(new InputStatement($p.getLine(), $p.getCharPositionInLine() + 1, $exp1.ast));}
-            (','exp2=expression {$ast.add(new InputStatement($p.getLine(), $p.getCharPositionInLine() + 1, $exp2.ast));})* ';'
+        (','exp2=expression {$ast.add(new InputStatement($p.getLine(), $p.getCharPositionInLine() + 1, $exp2.ast));})* ';'
 
     | exp1=expression '=' exp2=expression ';'
         { $ast.add(new AssignmentStatement($exp1.start.getLine(), $exp1.start.getCharPositionInLine()+1, $exp1.ast, $exp2.ast));}
@@ -258,11 +182,11 @@ statement returns [List<Statement> ast = new ArrayList<>()]:
         {$ast.add(new Function($id.getLine(), $id.getCharPositionInLine()+1,
         new Variable($id.getLine(), $id.getCharPositionInLine()+1, $id.text),
         $g.ast));}
-    ;
+    | (v=varDefinition {$ast.addAll($v.ast);})+
+            ;
 
 block returns [List<Statement> ast = new ArrayList<>()]: s1=statement {$ast.addAll($s1.ast);} | ('{' s2=statement* '}' {$ast.addAll($s2.ast);})*
             ;
-
 
 ifStatement returns [List<Statement> ast = new ArrayList<Statement>()]:
     i='if' exp=expression ':' b1=block 'else' b2=block
@@ -274,21 +198,20 @@ ifStatement returns [List<Statement> ast = new ArrayList<Statement>()]:
     {
         $ast.add(new IfElseStatement($i.getLine(), $i.getCharPositionInLine()+1, $exp.ast, $b1.ast) );
     }
-;
-
+            ;
 
 whileStatement returns [List<Statement> ast = new ArrayList<>()]:
     wh='while' exp=expression ':' '{' st=statements '}'
-        {$ast.add(new WhileStatement($wh.getLine(), $wh.getCharPositionInLine()+1, $exp.ast, $st.ast));}
+            {$ast.add(new WhileStatement($wh.getLine(), $wh.getCharPositionInLine()+1, $exp.ast, $st.ast));}
 
     | wh='while' exp=expression ':' s=statement
-        {$ast.add(new WhileStatement($wh.getLine(), $wh.getCharPositionInLine()+1, $exp.ast, $s.ast));}
-    ;
+            {$ast.add(new WhileStatement($wh.getLine(), $wh.getCharPositionInLine()+1, $exp.ast, $s.ast));}
+            ;
 
 give_params returns [List<Expression> ast = new ArrayList<Expression>()]:
-                    '('exp1=expression {$ast.add($exp1.ast);} (','exp2=expression {$ast.add($exp2.ast);})*')'
-                    | '('')'
-                    ;
+            '('exp1=expression {$ast.add($exp1.ast);} (','exp2=expression {$ast.add($exp2.ast);})*')'
+            | '('')'
+            ;
 
 
 fragment LETTER: [a-zA-Z]

@@ -13,8 +13,8 @@ program returns [Program ast]: d=definitions m=mainMethod EOF
                 { $ast = new Program($d.start.getLine(), $d.start.getCharPositionInLine()+1, $d.ast, $m.ast); }
        ;
 
-mainMethod returns [FuncDefinition ast]: d='def' m='main' '(' ')' ':' '{' v=varDefinitions s=statements '}'
-        {$ast = new FuncDefinition($d.getLine(), $d.getCharPositionInLine()+1, $v.ast, $s.ast);}
+mainMethod returns [FuncDefinition ast]: d='def' m='main' '(' ')' ':' '{' s=statements '}'
+        {$ast = new FuncDefinition($d.getLine(), $d.getCharPositionInLine()+1, $s.ast);}
     ;
 
 definitions returns [List<Definition> ast = new ArrayList<>()]:
@@ -78,10 +78,10 @@ statements returns [List<Statement> ast = new ArrayList<>()]: (s=statement {$ast
             ;
 
 funDefinition returns [FuncDefinition ast]:
-            d='def' i=ID p=funParam c=':' {Type type = VoidType.getInstance();}  (bt=builtinType {type = $bt.ast;})? '{' vd=varDefinitions st=statements '}'
+            d='def' i=ID p=funParam c=':' {Type type = VoidType.getInstance();}  (bt=builtinType {type = $bt.ast;})? '{' st=statements '}'
             { $ast = new FuncDefinition($d.getLine(), $d.getCharPositionInLine()+1,
             new FunctionType($c.getLine(), $c.getCharPositionInLine()+1, type, $p.ast),
-            $i.text, $vd.ast, $st.ast); }
+            $i.text, $st.ast); }
             ;
 
 expression returns [Expression ast]: '(' exp=expression ')' { $ast = $exp.ast; }
@@ -182,6 +182,7 @@ statement returns [List<Statement> ast = new ArrayList<>()]:
         {$ast.add(new Function($id.getLine(), $id.getCharPositionInLine()+1,
         new Variable($id.getLine(), $id.getCharPositionInLine()+1, $id.text),
         $g.ast));}
+    | (v=varDefinition {$ast.addAll($v.ast);})+
             ;
 
 block returns [List<Statement> ast = new ArrayList<>()]: s1=statement {$ast.addAll($s1.ast);} | ('{' s2=statement* '}' {$ast.addAll($s2.ast);})*
