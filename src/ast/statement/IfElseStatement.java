@@ -19,11 +19,10 @@ public class IfElseStatement extends AbstractStatement implements Statement{
         this.elseStatementList = elseStatementList;
     }
 
-    public IfElseStatement(int line, int column, Expression expression, List<Statement> ifStatementListd) {
+    public IfElseStatement(int line, int column, Expression expression, List<Statement> ifStatementList) {
         super(line, column);
         this.expression = expression;
         this.ifStatementList = ifStatementList;
-        this.elseStatementList = new ArrayList<Statement>();
     }
 
     /**

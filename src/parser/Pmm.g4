@@ -217,15 +217,18 @@ give_params returns [List<Expression> ast = new ArrayList<Expression>()]:
 fragment LETTER: [a-zA-Z]
             ;
 
+fragment EXPONENT:  [eE]('-'|'+')?INT_CONSTANT
+    ;
+
 INT_CONSTANT: '0' | [1-9]+[0-9]*
             ;
 
 REAL_CONSTANT: '0'?'.'[0-9]*
                  | [1-9]+'.'[0-9]*
                  | [1-9]*'.'[0-9]+
-                 | [1-9]+('E'|'e')'-'?[1-9]+
-                 | '0'?'.'[0-9]*('E'|'e')'-'?[1-9]+
-                 | [1-9]+'.'[0-9]*('E'|'e')'-'?[1-9]+
+                 | [1-9]+ EXPONENT
+                 | '0'?'.'[0-9]* EXPONENT
+                 | [1-9]+'.'[0-9]* EXPONENT
             ;
 
 ID: ('_' | LETTER)(LETTER | [0-9] | '_')*
