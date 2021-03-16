@@ -2,6 +2,7 @@ package ast.program.type;
 
 import ast.AbstractNodeAST;
 import ast.program.type.util.AbstractType;
+import ast.visitor.Visitor;
 
 public class IntType extends AbstractType implements Type{
     private static IntType intType = null;
@@ -15,5 +16,11 @@ public class IntType extends AbstractType implements Type{
             intType = new IntType(0,0);
         }
         return intType;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object o) {
+        v.visit(this, o);
+        return null;
     }
 }

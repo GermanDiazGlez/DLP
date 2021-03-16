@@ -2,6 +2,7 @@ package ast.statement;
 
 import ast.expression.Expression;
 import ast.statement.util.AbstractStatement;
+import ast.visitor.Visitor;
 
 public class InputStatement extends AbstractStatement implements Statement{
 
@@ -17,5 +18,11 @@ public class InputStatement extends AbstractStatement implements Statement{
      */
     public Expression getExpression(){
         return expression;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object o) {
+        v.visit(this, o);
+        return null;
     }
 }

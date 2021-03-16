@@ -2,6 +2,7 @@ package ast.program.type;
 
 import ast.AbstractNodeAST;
 import ast.program.type.util.AbstractType;
+import ast.visitor.Visitor;
 
 public class CharType extends AbstractType implements Type{
     private static CharType charType = null;
@@ -15,5 +16,11 @@ public class CharType extends AbstractType implements Type{
             charType = new CharType(0,0);
         }
         return charType;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object o) {
+        v.visit(this, o);
+        return null;
     }
 }

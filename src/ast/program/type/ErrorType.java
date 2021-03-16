@@ -1,6 +1,7 @@
 package ast.program.type;
 
 import ast.AbstractNodeAST;
+import ast.visitor.Visitor;
 import errorhandler.EH;
 
 public class ErrorType extends AbstractNodeAST implements Type{
@@ -16,5 +17,11 @@ public class ErrorType extends AbstractNodeAST implements Type{
 
     public String toString(){
         return "Error en la linea: " + getLine() + " , columna: " + getColumn() + " mensaje:" + message;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object o) {
+        v.visit(this, o);
+        return null;
     }
 }

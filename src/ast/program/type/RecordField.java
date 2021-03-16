@@ -2,6 +2,7 @@ package ast.program.type;
 
 import ast.AbstractNodeAST;
 import ast.program.type.util.AbstractType;
+import ast.visitor.Visitor;
 
 public class RecordField extends AbstractNodeAST{
 
@@ -22,4 +23,10 @@ public class RecordField extends AbstractNodeAST{
         return name;
     }
 
+
+    @Override
+    public Object accept(Visitor v, Object o) {
+        v.visit(this, o);
+        return null;
+    }
 }

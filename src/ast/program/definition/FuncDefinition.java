@@ -6,6 +6,7 @@ import ast.program.type.FunctionType;
 import ast.program.type.Type;
 import ast.program.type.VoidType;
 import ast.statement.Statement;
+import ast.visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,5 +27,14 @@ public class FuncDefinition extends AbstractDefinition implements Definition{
     }
 
 
+    public List<Statement> getStatementList(){
+        return  statementList;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object o) {
+        v.visit(this, o);
+        return null;
+    }
 
 }

@@ -1,6 +1,7 @@
 package ast.expression;
 
 import ast.expression.util.AbstractExpression;
+import ast.visitor.Visitor;
 
 public class FieldAccess extends AbstractExpression implements Expression{
 
@@ -22,5 +23,11 @@ public class FieldAccess extends AbstractExpression implements Expression{
 
     public String getName(){
         return name;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object o) {
+        v.visit(this, o);
+        return null;
     }
 }

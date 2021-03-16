@@ -19,4 +19,5 @@ public interface Program extends ASTNode {
      * @return la columna en la que se encuentre el nodo.
      */
     public int getColumn();
+
 }

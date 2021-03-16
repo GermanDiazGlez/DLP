@@ -2,6 +2,7 @@ package ast.statement;
 
 import ast.expression.Expression;
 import ast.statement.util.AbstractStatement;
+import ast.visitor.Visitor;
 
 public class AssignmentStatement extends AbstractStatement implements  Statement{
 
@@ -26,5 +27,11 @@ public class AssignmentStatement extends AbstractStatement implements  Statement
      */
     public Expression getRightExpression(){
         return rightExpression;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object o) {
+        v.visit(this, o);
+        return null;
     }
 }

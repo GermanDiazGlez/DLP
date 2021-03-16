@@ -2,6 +2,7 @@ package ast.expression;
 
 import ast.expression.util.AbstractExpression;
 import ast.statement.Statement;
+import ast.visitor.Visitor;
 
 import java.util.List;
 
@@ -28,5 +29,11 @@ public class Function extends AbstractExpression implements Expression, Statemen
      */
     public List<Expression> getExpressions(){
         return expressions;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object o) {
+        v.visit(this, o);
+        return null;
     }
 }

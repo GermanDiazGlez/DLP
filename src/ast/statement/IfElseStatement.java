@@ -2,6 +2,7 @@ package ast.statement;
 
 import ast.expression.Expression;
 import ast.statement.util.AbstractStatement;
+import ast.visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,5 +45,11 @@ public class IfElseStatement extends AbstractStatement implements Statement{
      */
     public Expression getExpression(){
         return expression;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object o) {
+        v.visit(this, o);
+        return null;
     }
 }

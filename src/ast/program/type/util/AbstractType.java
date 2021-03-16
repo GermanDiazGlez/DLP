@@ -2,10 +2,14 @@ package ast.program.type.util;
 
 import ast.AbstractNodeAST;
 import ast.program.type.Type;
+import ast.visitor.Visitor;
 
-public class AbstractType extends AbstractNodeAST implements Type {
+public abstract class AbstractType extends AbstractNodeAST implements Type {
 
     public AbstractType(int line, int column) {
         super(line, column);
     }
+
+    @Override
+    public abstract Object accept(Visitor v, Object o);
 }
