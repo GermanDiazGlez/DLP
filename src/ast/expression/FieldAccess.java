@@ -30,4 +30,14 @@ public class FieldAccess extends AbstractExpression implements Expression{
         v.visit(this, o);
         return null;
     }
+
+    @Override
+    public boolean getLValue() {
+        return lValue;
+    }
+
+    @Override
+    public void setLValue(boolean lValue) {
+        this.lValue = lValue;
+    }
 }

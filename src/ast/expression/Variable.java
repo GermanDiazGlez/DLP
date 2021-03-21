@@ -14,21 +14,18 @@ public class Variable extends AbstractExpression implements Expression{
     }
 
     @Override
-    public boolean getLValue() {
-        return lValue;
-    }
-
-    @Override
-    public void setLValue(boolean Lvalue) {
-        this.lValue = Lvalue;
-    }
-
-
-    @Override
     public Object accept(Visitor v, Object o) {
         v.visit(this, o);
         return null;
     }
 
+    @Override
+    public boolean getLValue() {
+        return lValue;
+    }
 
+    @Override
+    public void setLValue(boolean lValue) {
+        this.lValue = lValue;
+    }
 }

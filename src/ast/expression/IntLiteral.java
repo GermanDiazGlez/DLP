@@ -6,6 +6,7 @@ import ast.visitor.Visitor;
 public class IntLiteral extends AbstractExpression implements Expression{
 
     public int value;
+    private boolean lValue;
 
     public IntLiteral(int line, int column, int value) {
         super(line, column);
@@ -20,5 +21,15 @@ public class IntLiteral extends AbstractExpression implements Expression{
     public Object accept(Visitor v, Object o) {
         v.visit(this, o);
         return null;
+    }
+
+    @Override
+    public boolean getLValue() {
+        return lValue;
+    }
+
+    @Override
+    public void setLValue(boolean lValue) {
+        this.lValue = lValue;
     }
 }

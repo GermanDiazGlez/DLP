@@ -36,4 +36,14 @@ public class Function extends AbstractExpression implements Expression, Statemen
         v.visit(this, o);
         return null;
     }
+
+    @Override
+    public boolean getLValue() {
+        return lValue;
+    }
+
+    @Override
+    public void setLValue(boolean lValue) {
+        this.lValue = lValue;
+    }
 }

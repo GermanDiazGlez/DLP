@@ -29,4 +29,14 @@ public class Cast extends AbstractExpression implements Expression{
         return null;
     }
 
+    @Override
+    public boolean getLValue() {
+        return lValue;
+    }
+
+    @Override
+    public void setLValue(boolean lValue) {
+        this.lValue = lValue;
+    }
+
 }

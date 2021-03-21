@@ -6,6 +6,7 @@ import ast.visitor.Visitor;
 public class CharLiteral extends AbstractExpression implements Expression{
 
     public char value;
+    private boolean lValue;
 
     public CharLiteral(int line, int column, char value) {
         super(line, column);
@@ -20,5 +21,15 @@ public class CharLiteral extends AbstractExpression implements Expression{
     public Object accept(Visitor v, Object o) {
         v.visit(this, o);
         return null;
+    }
+
+    @Override
+    public boolean getLValue() {
+        return lValue;
+    }
+
+    @Override
+    public void setLValue(boolean lValue) {
+        this.lValue = lValue;
     }
 }

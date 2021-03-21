@@ -6,6 +6,7 @@ import ast.visitor.Visitor;
 public class DoubleLiteral extends AbstractExpression implements Expression{
 
     public double value;
+    private boolean lValue;
 
     public DoubleLiteral(int line, int column, double value) {
         super(line, column);
@@ -20,5 +21,15 @@ public class DoubleLiteral extends AbstractExpression implements Expression{
     public Object accept(Visitor v, Object o) {
         v.visit(this, o);
         return null;
+    }
+
+    @Override
+    public boolean getLValue() {
+        return lValue;
+    }
+
+    @Override
+    public void setLValue(boolean lValue) {
+        this.lValue = lValue;
     }
 }
