@@ -1,9 +1,6 @@
 package ast.semantic;
 
-import ast.expression.CharLiteral;
-import ast.expression.DoubleLiteral;
-import ast.expression.IntLiteral;
-import ast.expression.Variable;
+import ast.expression.*;
 import ast.program.type.ErrorType;
 import ast.statement.AssignmentStatement;
 import ast.statement.InputStatement;
@@ -34,6 +31,21 @@ public class LValueVisitor extends AbstractVisitor {
     public Object visit(CharLiteral charLiteral, Object o) {
         charLiteral.setLValue(false);
         return  null;
+    }
+
+    @Override
+    public Object visit(FieldAccess fieldAccess, Object o) {
+        fieldAccess.setLValue(true);
+        fieldAccess.getExpression().accept(this, o);
+        return null;
+    }
+
+    @Override
+    public Object visit(ArrayAccess arrayAccess, Object o) {
+        arrayAccess.setLValue(true);
+        arrayAccess.getLeftExpression().accept(this, o);
+        arrayAccess.getRightExpression().accept(this, o);
+        return null;
     }
 
     public Object visit(AssignmentStatement a, Object o){

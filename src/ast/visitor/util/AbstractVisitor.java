@@ -19,8 +19,6 @@ public class AbstractVisitor implements Visitor {
 
     @Override
     public Object visit(ArrayAccess arrayAccess, Object o) {
-        arrayAccess.getLeftExpression().accept(this, o);
-        arrayAccess.getRightExpression().accept(this, o);
         return null;
     }
 
@@ -50,7 +48,6 @@ public class AbstractVisitor implements Visitor {
 
     @Override
     public Object visit(FieldAccess fieldAccess, Object o) {
-        fieldAccess.getExpression().accept(this, o);
         return null;
     }
 
@@ -92,8 +89,6 @@ public class AbstractVisitor implements Visitor {
 
     @Override
     public Object visit(AssignmentStatement assignmentStatement, Object o) {
-        assignmentStatement.getLeftExpression().accept(this, o);
-        assignmentStatement.getRightExpression().accept(this, o);
         return null;
     }
 
@@ -107,7 +102,6 @@ public class AbstractVisitor implements Visitor {
 
     @Override
     public Object visit(InputStatement inputStatement, Object o) {
-        inputStatement.getExpression().accept(this, o);
         return null;
     }
 

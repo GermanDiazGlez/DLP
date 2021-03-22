@@ -1,3 +1,5 @@
+import ast.semantic.LValueVisitor;
+import ast.visitor.Visitor;
 import parser.*;
 
 import org.antlr.v4.runtime.*;
@@ -23,6 +25,9 @@ public class Main {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		PmmParser parser = new PmmParser(tokens);
 		Program ast = parser.program().ast;
+
+		Visitor lValueVisitor = new LValueVisitor();
+		ast.accept(lValueVisitor, null);
 
 		// * Check errors
 		if(EH.getEH().hasErrors()){
