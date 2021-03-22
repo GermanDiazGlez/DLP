@@ -1,6 +1,7 @@
 package ast.visitor;
 
 import ast.expression.*;
+import ast.Program;
 import ast.program.definition.FuncDefinition;
 import ast.program.definition.VarDefinition;
 import ast.program.type.*;
@@ -67,5 +68,7 @@ public interface Visitor {
     Object visit(FuncDefinition funcDefinition, Object o);
 
     Object visit(VarDefinition varDefinition, Object o);
+
+    Object visit(Program p, Object o);
 
 }

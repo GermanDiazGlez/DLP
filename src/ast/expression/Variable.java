@@ -6,7 +6,6 @@ import ast.visitor.Visitor;
 public class Variable extends AbstractExpression implements Expression{
 
     public String name;
-    public boolean lValue;
 
     public Variable(int line, int column, String name) {
         super(line, column);

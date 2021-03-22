@@ -6,7 +6,6 @@ import ast.visitor.Visitor;
 public class CharLiteral extends AbstractExpression implements Expression{
 
     public char value;
-    private boolean lValue;
 
     public CharLiteral(int line, int column, char value) {
         super(line, column);

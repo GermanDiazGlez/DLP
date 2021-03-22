@@ -6,7 +6,6 @@ import ast.visitor.Visitor;
 public class IntLiteral extends AbstractExpression implements Expression{
 
     public int value;
-    private boolean lValue;
 
     public IntLiteral(int line, int column, int value) {
         super(line, column);

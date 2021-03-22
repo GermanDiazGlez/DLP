@@ -1,5 +1,6 @@
 package ast.visitor.util;
 
+import ast.Program;
 import ast.expression.*;
 import ast.program.definition.FuncDefinition;
 import ast.program.definition.VarDefinition;
@@ -189,6 +190,12 @@ public class AbstractVisitor implements Visitor {
     @Override
     public Object visit(VarDefinition varDefinition, Object o) {
         varDefinition.getType().accept(this, o);
+        return null;
+    }
+
+    @Override
+    public Object visit(Program p, Object o) {
+        p.getDefinitions().stream().forEach((d) -> {d.accept(this, o);});
         return null;
     }
 }
