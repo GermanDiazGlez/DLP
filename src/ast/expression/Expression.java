@@ -1,12 +1,15 @@
 package ast.expression;
 
 import ast.ASTNode;
+import ast.program.type.Type;
 
 /**
  * Interfaz que define el tipo expresion
  */
-public interface Expression extends ASTNode{
+public interface Expression extends ASTNode {
 
-    public boolean getLValue();
-    public void setLValue(boolean lValue);
+    boolean getLValue();
+    void setLValue(boolean lValue);
+    Type getType();
+    void setType(Type type);
 }

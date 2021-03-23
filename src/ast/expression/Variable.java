@@ -1,11 +1,13 @@
 package ast.expression;
 
 import ast.expression.util.AbstractExpression;
+import ast.program.definition.Definition;
 import ast.visitor.Visitor;
 
 public class Variable extends AbstractExpression implements Expression{
 
     public String name;
+    private Definition definition;
 
     public Variable(int line, int column, String name) {
         super(line, column);
