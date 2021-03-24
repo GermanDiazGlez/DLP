@@ -8,6 +8,7 @@ public class SymbolTable {
 	private int scope=0;
 	private List<Map<String,Definition>> table;
 	public SymbolTable()  {
+		table = new ArrayList<>();
 	}
 
 	public void set() {
