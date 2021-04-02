@@ -102,6 +102,7 @@ public class AbstractVisitor implements Visitor {
 
     @Override
     public Object visit(InputStatement inputStatement, Object o) {
+        inputStatement.getExpression().accept(this, o);
         return null;
     }
 

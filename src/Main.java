@@ -1,3 +1,4 @@
+import ast.semantic.IdentificationVisitor;
 import ast.semantic.LValueVisitor;
 import ast.visitor.Visitor;
 import parser.*;
@@ -25,6 +26,9 @@ public class Main {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		PmmParser parser = new PmmParser(tokens);
 		Program ast = parser.program().ast;
+
+		IdentificationVisitor identificationVisitor = new IdentificationVisitor();
+		ast.accept(identificationVisitor, null);
 
 		Visitor lValueVisitor = new LValueVisitor();
 		ast.accept(lValueVisitor, null);

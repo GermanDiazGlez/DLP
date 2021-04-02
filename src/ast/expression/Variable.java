@@ -29,4 +29,12 @@ public class Variable extends AbstractExpression implements Expression{
     public void setLValue(boolean lValue) {
         this.lValue = lValue;
     }
+
+    public String getName(){
+        return this.name;
+    }
+
+    public void setDefinition(Definition definition){
+        this.definition = definition;
+    }
 }

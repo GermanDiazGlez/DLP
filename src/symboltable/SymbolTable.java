@@ -7,8 +7,10 @@ public class SymbolTable {
 	
 	private int scope=0;
 	private List<Map<String,Definition>> table;
+
 	public SymbolTable()  {
 		table = new ArrayList<>();
+		this.table.add(new HashMap<>());
 	}
 
 	public void set() {
@@ -30,6 +32,7 @@ public class SymbolTable {
 		if(findInCurrentScope(definition.getName()) != null)
 			return false;
 		else{
+			definition.setScope(scope);
 			table.get(scope).put(definition.getName(), definition);
 			return true;
 		}
@@ -37,12 +40,14 @@ public class SymbolTable {
 	}
 	
 	public Definition find(String id) {
+		int i = scope;
 		//buscar en el map mas alto e ir hacia atras
 		//si no la encuentra return null;
-		for (int i = scope; i == 0; i--){
+		while(i >= 0){
 			if(table.get(i).containsKey(id)){
 				return table.get(i).get(id);
 			}
+			i--;
 		}
 		return null;
 	}
