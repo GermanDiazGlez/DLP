@@ -7,11 +7,12 @@ import ast.statement.InputStatement;
 import ast.visitor.Visitor;
 import ast.visitor.util.AbstractVisitor;
 
-public class LValueVisitor extends AbstractVisitor {
+public class TypeCheckingVisitor extends AbstractVisitor {
 
     @Override
     public Object visit(Variable variable, Object o) {
         variable.setLValue(true);
+        variable.setType(variable.getDefinition().getType());
         return  null;
     }
 
@@ -48,6 +49,7 @@ public class LValueVisitor extends AbstractVisitor {
         return null;
     }
 
+    @Override
     public Object visit(AssignmentStatement a, Object o){
         a.getLeftExpression().accept(this, o);
         a.getRightExpression().accept(this, o);
@@ -57,6 +59,7 @@ public class LValueVisitor extends AbstractVisitor {
         return null;
     }
 
+    @Override
     public Object visit(InputStatement i, Object o){
         i.getExpression().accept(this, o);
         if(!i.getExpression().getLValue()){

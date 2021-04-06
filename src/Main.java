@@ -1,5 +1,5 @@
 import ast.semantic.IdentificationVisitor;
-import ast.semantic.LValueVisitor;
+import ast.semantic.TypeCheckingVisitor;
 import ast.visitor.Visitor;
 import parser.*;
 
@@ -30,7 +30,7 @@ public class Main {
 		IdentificationVisitor identificationVisitor = new IdentificationVisitor();
 		ast.accept(identificationVisitor, null);
 
-		Visitor lValueVisitor = new LValueVisitor();
+		Visitor lValueVisitor = new TypeCheckingVisitor();
 		ast.accept(lValueVisitor, null);
 
 		// * Check errors

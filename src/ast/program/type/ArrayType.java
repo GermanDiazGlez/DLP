@@ -7,16 +7,16 @@ import ast.visitor.Visitor;
 public class ArrayType extends AbstractType implements Type{
 
     public int size;
-    public Type type;
+    public Type of;
 
     public ArrayType(int line, int column, Type type, int size){
         super(line, column);
-        this.type = type;
+        this.of = type;
         this.size = size;
     }
 
     public Type getType(){
-        return type;
+        return of;
     }
 
     @Override

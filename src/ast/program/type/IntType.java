@@ -1,6 +1,5 @@
 package ast.program.type;
 
-import ast.AbstractNodeAST;
 import ast.program.type.util.AbstractType;
 import ast.visitor.Visitor;
 
@@ -22,5 +21,10 @@ public class IntType extends AbstractType implements Type{
     public Object accept(Visitor v, Object o) {
         v.visit(this, o);
         return null;
+    }
+
+    @Override
+    public boolean isLogical(){
+        return true;
     }
 }
