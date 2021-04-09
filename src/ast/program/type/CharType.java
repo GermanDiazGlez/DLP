@@ -19,15 +19,31 @@ public class CharType extends AbstractType implements Type{
     }
 
     @Override
-    public Object accept(Visitor v, Object o) {
-        v.visit(this, o);
+    public Type arithmetic(Type other) {
+        if(other.equals(CharType.getInstance()) || other instanceof ErrorType) {
+            return other;
+        }
         return null;
     }
 
     @Override
-    public Type arithmetic(Type other){
-        if(other.equals(CharType.getInstance()) || other instanceof ErrorType)
+    public Type arithmetic(){
+        return IntType.getInstance();
+    }
+
+    @Override
+    public Type comparison(Type other) {
+        if(other.equals(CharType.getInstance()) || other instanceof ErrorType) {
             return other;
+        }
+        return null;
+    }
+
+    @Override
+    public Type promotesTo(Type other) {
+        if(other.equals(CharType.getInstance()) || other instanceof ErrorType) {
+            return other;
+        }
         return null;
     }
 }

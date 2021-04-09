@@ -25,10 +25,31 @@ public class DoubleType extends AbstractType implements Type{
     }
 
     @Override
-    public Type arithmetic(Type other){
-        if(other.equals(DoubleType.getInstance()) || other instanceof ErrorType)
+    public Type arithmetic(Type other) {
+        if(other.equals(DoubleType.getInstance())  || other instanceof ErrorType) {
             return other;
+        }
         return null;
     }
 
+    @Override
+    public Type arithmetic(){
+        return this;
+    }
+
+    @Override
+    public Type comparison(Type other) {
+        if(other.equals(DoubleType.getInstance()) || other instanceof ErrorType) {
+            return other;
+        }
+        return null;
+    }
+
+    @Override
+    public Type promotesTo(Type other) {
+        if(other.equals(DoubleType.getInstance()) || other instanceof ErrorType) {
+            return other;
+        }
+        return null;
+    }
 }

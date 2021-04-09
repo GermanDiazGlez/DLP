@@ -21,5 +21,36 @@ public abstract class AbstractType extends AbstractNodeAST implements Type {
         return false;
     }
 
+    @Override
+    public Type arithmetic(){
+        return null;
+    }
+    @Override
+    public Type comparison(Type other){
+        if(other instanceof ErrorType) {
+            return other;
+        }
+        return null;
+    }
 
+    @Override
+    public Type logic(Type other){
+        if(other instanceof ErrorType) {
+            return other;
+        }
+        return null;
+    }
+
+    @Override
+    public Type logic(){
+        return null;
+    }
+
+    @Override
+    public Type promotesTo(Type type) {
+        if(type instanceof ErrorType) {
+            return type;
+        }
+        return null;
+    }
 }

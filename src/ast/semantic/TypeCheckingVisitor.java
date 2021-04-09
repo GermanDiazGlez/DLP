@@ -55,6 +55,14 @@ public class TypeCheckingVisitor extends AbstractVisitor {
         if(!a.getLeftExpression().getLValue()){
             new ErrorType(a.getLine(), a.getColumn(), "Se esperaba un LValue");
         }
+
+        a.getLeftExpression().setType(a.getRightExpression().getType().promotesTo(a.getLeftExpression().getType()));
+        if( a.getLeftExpression().getType() == null)
+            a.getLeftExpression().setType(new ErrorType(a.getLeftExpression().getLine(), a.getLeftExpression().getColumn(),
+                    "No es posible asignar el tipo " +
+                            a.getRightExpression().getType() + " al tipo " +
+                            a.getLeftExpression().getType()));
+
         return null;
     }
 
@@ -108,5 +116,52 @@ public class TypeCheckingVisitor extends AbstractVisitor {
 
         return null;
     }
+
+    @Override
+    public Object visit(Comparison comparison, Object o) {
+        comparison.getLeftExpression().accept(this, o);
+        comparison.getRightExpression().accept(this, o);
+
+        comparison.setType(comparison.getLeftExpression().getType().comparison(comparison.getRightExpression().getType()));
+
+        if( comparison.getType() == null)
+            comparison.setType(new ErrorType(comparison.getLine(), comparison.getColumn(),
+                    "No se puede hacer la comparación '" + comparison.getOperator() + "' con los tipos " +
+                            comparison.getLeftExpression().getType() + " y " +
+                            comparison.getRightExpression().getType()));
+
+        return null;
+    }
+
+    @Override
+    public Object visit(Logical logical, Object o) {
+        logical.getLeftExpression().accept(this, o);
+        logical.getRightExpression().accept(this, o);
+
+        logical.setType(logical.getLeftExpression().getType().logic(logical.getRightExpression().getType()));
+
+        if( logical.getType() == null)
+            logical.setType(new ErrorType(logical.getLine(), logical.getColumn(),
+                    "No se puede hacer la operación lógica '" + logical.getOperator() + "' con los tipos " +
+                            logical.getLeftExpression().getType() + " y " +
+                            logical.getRightExpression().getType()));
+
+        return null;
+    }
+
+    @Override
+    public Object visit(Not not, Object o) {
+        not.getExpression().accept(this, o);
+
+        not.setType(not.getExpression().getType().logic());
+
+        if( not.getType() == null)
+            not.setType(new ErrorType(not.getLine(), not.getColumn(),
+                    "No se puede realizar la negación de la expresión con tipo: " +
+                            not.getExpression().getType()));
+
+        return null;
+    }
+
 
 }

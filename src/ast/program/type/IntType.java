@@ -34,4 +34,38 @@ public class IntType extends AbstractType implements Type{
             return other;
         return null;
     }
+
+    @Override
+    public Type arithmetic(){
+        return this;
+    }
+
+    @Override
+    public Type comparison(Type other) {
+        if(other.equals(IntType.getInstance()) || other instanceof ErrorType) {
+            return other;
+        }
+        return null;
+    }
+
+    @Override
+    public Type logic(Type other) {
+        if(other.equals(IntType.getInstance()) || other instanceof ErrorType) {
+            return other;
+        }
+        return null;
+    }
+
+    @Override
+    public Type logic() {
+        return this;
+    }
+
+    @Override
+    public Type promotesTo(Type other) {
+        if(other.equals(IntType.getInstance()) || other instanceof ErrorType) {
+            return other;
+        }
+        return null;
+    }
 }

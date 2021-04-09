@@ -30,6 +30,10 @@ public class Comparison extends AbstractExpression implements Expression{
         return rightExpression;
     }
 
+    public String getOperator(){
+        return this.operator;
+    }
+
     @Override
     public Object accept(Visitor v, Object o) {
         v.visit(this, o);
