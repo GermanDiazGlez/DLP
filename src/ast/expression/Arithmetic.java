@@ -46,4 +46,8 @@ public class Arithmetic extends AbstractExpression implements Expression{
     public void setLValue(boolean lValue) {
         this.lValue = lValue;
     }
+
+    public String getOperator(){
+        return this.operator;
+    }
 }

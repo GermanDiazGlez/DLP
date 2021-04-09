@@ -23,4 +23,11 @@ public class CharType extends AbstractType implements Type{
         v.visit(this, o);
         return null;
     }
+
+    @Override
+    public Type arithmetic(Type other){
+        if(other.equals(CharType.getInstance()) || other instanceof ErrorType)
+            return other;
+        return null;
+    }
 }

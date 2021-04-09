@@ -24,4 +24,11 @@ public class DoubleType extends AbstractType implements Type{
         return null;
     }
 
+    @Override
+    public Type arithmetic(Type other){
+        if(other.equals(DoubleType.getInstance()) || other instanceof ErrorType)
+            return other;
+        return null;
+    }
+
 }

@@ -8,18 +8,12 @@ import ast.program.type.*;
 import ast.statement.*;
 import ast.visitor.Visitor;
 
-public class AbstractVisitor implements Visitor {
+public class  AbstractVisitor implements Visitor {
 
     @Override
     public Object visit(Arithmetic arithmetic, Object o) {
         arithmetic.getLeftExpression().accept(this, o);
         arithmetic.getRightExpression().accept(this, o);
-
-        arithmetic.setType(arithmetic.getLeftExpression().getType().arithmetic(arithmetic.getLeftExpression().getType()));
-
-         if( arithmetic.getType() == null)
-             arithmetic.setType(new ErrorType());
-
         return null;
     }
 
@@ -128,15 +122,6 @@ public class AbstractVisitor implements Visitor {
     public Object visit(WhileStatement whileStatement, Object o) {
         whileStatement.getExpression().accept(this, o);
         whileStatement.getWhileStatementList().stream().forEach((e)-> {e.accept(this, o);});
-
-        w.condition.accept(this, o);
-        if( !w.condition.getType().isLogical())
-            w.condition.setType(new ErrorType(w.condition.getLine(), w.condition.getColumn(), "Condition is not a logical expression"));
-
-        for(Statement s : w.body){
-            s.accept(this, o);
-        }
-
         return null;
     }
 

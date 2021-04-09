@@ -37,4 +37,8 @@ public class Variable extends AbstractExpression implements Expression{
     public void setDefinition(Definition definition){
         this.definition = definition;
     }
+
+    public Definition getDefinition(){
+        return definition;
+    }
 }

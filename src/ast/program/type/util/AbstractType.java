@@ -21,10 +21,5 @@ public abstract class AbstractType extends AbstractNodeAST implements Type {
         return false;
     }
 
-    @Override
-    Type arithmetic(Type other){
-        if(other.equals(IntType.getInstance()) || other instanceof ErrorType)
-            return other;
-        return null;
-    }
+
 }

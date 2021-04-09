@@ -27,4 +27,11 @@ public class IntType extends AbstractType implements Type{
     public boolean isLogical(){
         return true;
     }
+
+    @Override
+    public Type arithmetic(Type other){
+        if(other.equals(IntType.getInstance()) || other instanceof ErrorType)
+            return other;
+        return null;
+    }
 }

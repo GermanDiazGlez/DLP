@@ -2,8 +2,7 @@ package ast.semantic;
 
 import ast.expression.*;
 import ast.program.type.ErrorType;
-import ast.statement.AssignmentStatement;
-import ast.statement.InputStatement;
+import ast.statement.*;
 import ast.visitor.Visitor;
 import ast.visitor.util.AbstractVisitor;
 
@@ -67,4 +66,47 @@ public class TypeCheckingVisitor extends AbstractVisitor {
         }
         return null;
     }
+
+
+    @Override
+    public Object visit(WhileStatement whileStatement, Object o) {
+        whileStatement.getExpression().accept(this, o);
+
+        if( !whileStatement.getExpression().getType().isLogical())
+            whileStatement.getExpression().setType(new ErrorType(whileStatement.getExpression().getLine(), whileStatement.getExpression().getColumn(),
+                    "La condición no es una expresión lógica"));
+
+        whileStatement.getWhileStatementList().stream().forEach((e)-> {e.accept(this, o);});
+        return null;
+    }
+
+    @Override
+    public Object visit(IfElseStatement ifElseStatement, Object o) {
+        ifElseStatement.getExpression().accept(this, o);
+
+        if( !ifElseStatement.getExpression().getType().isLogical())
+            ifElseStatement.getExpression().setType(new ErrorType(ifElseStatement.getExpression().getLine(), ifElseStatement.getExpression().getColumn(),
+                    "La condición no es una expresión lógica"));
+
+        ifElseStatement.getIfStatementList().stream().forEach((e)-> {e.accept(this, o);});
+        ifElseStatement.getElseStatementList().stream().forEach((e)-> {e.accept(this, o);});
+        return null;
+    }
+
+    @Override
+    public Object visit(Arithmetic arithmetic, Object o) {
+        arithmetic.getLeftExpression().accept(this, o);
+        arithmetic.getRightExpression().accept(this, o);
+
+        arithmetic.setType(arithmetic.getLeftExpression().getType().arithmetic(arithmetic.getRightExpression().getType()));
+
+        if( arithmetic.getType() == null)
+            arithmetic.setType(new ErrorType(arithmetic.getLine(), arithmetic.getColumn(),
+                    "No se puede hacer la operacion '" + arithmetic.getOperator() + "' con los tipos " +
+                    arithmetic.getLeftExpression().getType() + " y " +
+                    arithmetic.getRightExpression().getType()));
+
+        return null;
+    }
+
 }
