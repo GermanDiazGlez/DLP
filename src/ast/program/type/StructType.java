@@ -26,4 +26,14 @@ public class StructType extends AbstractType implements Type{
         v.visit(this, o);
         return null;
     }
+
+    @Override
+    public Type dot(String fieldName) {
+        for (RecordField r :recordFieldList) {
+            if(r.getName().equals(fieldName)){
+                return r.getType();
+            }
+        }
+        return null;
+    }
 }

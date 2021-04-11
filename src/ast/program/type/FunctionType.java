@@ -1,6 +1,7 @@
 package ast.program.type;
 
 import ast.AbstractNodeAST;
+import ast.expression.Expression;
 import ast.program.definition.VarDefinition;
 import ast.program.type.util.AbstractType;
 import ast.visitor.Visitor;
@@ -31,5 +32,24 @@ public class FunctionType extends AbstractType implements Type{
     public Object accept(Visitor v, Object o) {
         v.visit(this, o);
         return null;
+    }
+
+    @Override
+    public Type parenthesis(List<Expression> params) {
+        if(params.size() != parameters.size()) {
+            return null;
+        }
+        for(int i=0; i<params.size(); i++) {
+            Type pType = params.get(i).getType();
+            if(!pType.isBuiltInType()) {
+                return null;
+            }
+            Type thisParamType = parameters.get(i).getType();
+            if(pType.promotesTo(thisParamType) == null) {
+                return null;
+            }
+        }
+
+        return returnType;
     }
 }

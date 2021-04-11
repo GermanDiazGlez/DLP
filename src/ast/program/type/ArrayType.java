@@ -25,4 +25,14 @@ public class ArrayType extends AbstractType implements Type{
         return null;
     }
 
+    @Override
+    public Type squareBrackets(Type type){
+        if(type instanceof IntType)
+            return of;
+        else if(type instanceof ErrorType)
+            return type;
+
+        return null;
+    }
+
 }

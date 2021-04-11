@@ -1,10 +1,13 @@
 package ast.program.type.util;
 
 import ast.AbstractNodeAST;
+import ast.expression.Expression;
 import ast.program.type.ErrorType;
 import ast.program.type.IntType;
 import ast.program.type.Type;
 import ast.visitor.Visitor;
+
+import java.util.List;
 
 public abstract class AbstractType extends AbstractNodeAST implements Type {
 
@@ -22,6 +25,14 @@ public abstract class AbstractType extends AbstractNodeAST implements Type {
     }
 
     @Override
+    public Type arithmetic(Type type) {
+        if(type instanceof ErrorType){
+            return type;
+        }
+        return null;
+    }
+
+    @Override
     public Type arithmetic(){
         return null;
     }
@@ -34,9 +45,9 @@ public abstract class AbstractType extends AbstractNodeAST implements Type {
     }
 
     @Override
-    public Type logic(Type other){
-        if(other instanceof ErrorType) {
-            return other;
+    public Type logic(Type type){
+        if(type instanceof ErrorType) {
+            return type;
         }
         return null;
     }
@@ -51,6 +62,37 @@ public abstract class AbstractType extends AbstractNodeAST implements Type {
         if(type instanceof ErrorType) {
             return type;
         }
+        return null;
+    }
+
+    @Override
+    public boolean isBuiltInType() {
+        return false;
+    }
+
+    @Override
+    public Type canBeCastTo(Type type) {
+        if(type instanceof ErrorType) {
+            return type;
+        }
+        return null;
+    }
+
+    @Override
+    public Type squareBrackets(Type type) {
+        if(type instanceof ErrorType) {
+            return type;
+        }
+        return null;
+    }
+
+    @Override
+    public Type dot(String field) {
+        return null;
+    }
+
+    @Override
+    public Type parenthesis(List<Expression> parameters) {
         return null;
     }
 }

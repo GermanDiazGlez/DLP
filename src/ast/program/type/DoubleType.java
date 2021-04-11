@@ -38,17 +38,30 @@ public class DoubleType extends AbstractType implements Type{
     }
 
     @Override
-    public Type comparison(Type other) {
-        if(other.equals(DoubleType.getInstance()) || other instanceof ErrorType) {
-            return other;
+    public Type comparison(Type type) {
+        if(type.equals(DoubleType.getInstance()) || type instanceof ErrorType) {
+            return type;
         }
         return null;
     }
 
     @Override
-    public Type promotesTo(Type other) {
-        if(other.equals(DoubleType.getInstance()) || other instanceof ErrorType) {
-            return other;
+    public Type promotesTo(Type type) {
+        if(type.equals(DoubleType.getInstance()) || type instanceof ErrorType) {
+            return type;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean isBuiltInType() {
+        return true;
+    }
+
+    @Override
+    public Type canBeCastTo(Type type) {
+        if(type.isBuiltInType() || type instanceof ErrorType) {
+            return type;
         }
         return null;
     }

@@ -29,9 +29,9 @@ public class IntType extends AbstractType implements Type{
     }
 
     @Override
-    public Type arithmetic(Type other){
-        if(other.equals(IntType.getInstance()) || other instanceof ErrorType)
-            return other;
+    public Type arithmetic(Type type){
+        if(type.equals(IntType.getInstance()) || type instanceof ErrorType)
+            return type;
         return null;
     }
 
@@ -41,17 +41,17 @@ public class IntType extends AbstractType implements Type{
     }
 
     @Override
-    public Type comparison(Type other) {
-        if(other.equals(IntType.getInstance()) || other instanceof ErrorType) {
-            return other;
+    public Type comparison(Type type) {
+        if(type.equals(IntType.getInstance()) || type instanceof ErrorType) {
+            return type;
         }
         return null;
     }
 
     @Override
-    public Type logic(Type other) {
-        if(other.equals(IntType.getInstance()) || other instanceof ErrorType) {
-            return other;
+    public Type logic(Type type) {
+        if(type.equals(IntType.getInstance()) || type instanceof ErrorType) {
+            return type;
         }
         return null;
     }
@@ -62,9 +62,22 @@ public class IntType extends AbstractType implements Type{
     }
 
     @Override
-    public Type promotesTo(Type other) {
-        if(other.equals(IntType.getInstance()) || other instanceof ErrorType) {
-            return other;
+    public Type promotesTo(Type type) {
+        if(type.equals(IntType.getInstance()) || type instanceof ErrorType) {
+            return type;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean isBuiltInType() {
+        return true;
+    }
+
+    @Override
+    public Type canBeCastTo(Type type) {
+        if(type.isBuiltInType() || type instanceof ErrorType) {
+            return type;
         }
         return null;
     }

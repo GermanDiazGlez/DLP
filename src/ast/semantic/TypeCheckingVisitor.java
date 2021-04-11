@@ -2,6 +2,8 @@ package ast.semantic;
 
 import ast.expression.*;
 import ast.program.type.ErrorType;
+import ast.program.type.FunctionType;
+import ast.program.type.Type;
 import ast.statement.*;
 import ast.visitor.Visitor;
 import ast.visitor.util.AbstractVisitor;
@@ -37,6 +39,13 @@ public class TypeCheckingVisitor extends AbstractVisitor {
     public Object visit(FieldAccess fieldAccess, Object o) {
         fieldAccess.setLValue(true);
         fieldAccess.getExpression().accept(this, o);
+
+        fieldAccess.setType(fieldAccess.getExpression().getType().dot(fieldAccess.getName()));
+
+        if(fieldAccess.getType() == null) {
+            fieldAccess.setType(new ErrorType(fieldAccess.getLine(), fieldAccess.getColumn(),
+                            "No es posible acceder al campo '" + fieldAccess.getName() + "'"));
+        }
         return null;
     }
 
@@ -45,6 +54,13 @@ public class TypeCheckingVisitor extends AbstractVisitor {
         arrayAccess.setLValue(true);
         arrayAccess.getLeftExpression().accept(this, o);
         arrayAccess.getRightExpression().accept(this, o);
+
+        arrayAccess.setType(arrayAccess.getLeftExpression().getType().squareBrackets(arrayAccess.getRightExpression().getType()));
+
+        if(arrayAccess.getType() == null) {
+            arrayAccess.setType(new ErrorType(arrayAccess.getLine(), arrayAccess.getColumn(),
+                            "El acceso a array no es válido"));
+        }
         return null;
     }
 
@@ -52,9 +68,9 @@ public class TypeCheckingVisitor extends AbstractVisitor {
     public Object visit(AssignmentStatement a, Object o){
         a.getLeftExpression().accept(this, o);
         a.getRightExpression().accept(this, o);
-        if(!a.getLeftExpression().getLValue()){
+        if(!a.getLeftExpression().getLValue())
             new ErrorType(a.getLine(), a.getColumn(), "Se esperaba un LValue");
-        }
+
 
         a.getLeftExpression().setType(a.getRightExpression().getType().promotesTo(a.getLeftExpression().getType()));
         if( a.getLeftExpression().getType() == null)
@@ -69,9 +85,14 @@ public class TypeCheckingVisitor extends AbstractVisitor {
     @Override
     public Object visit(InputStatement i, Object o){
         i.getExpression().accept(this, o);
-        if(!i.getExpression().getLValue()){
+        if(!i.getExpression().getLValue())
             new ErrorType(i.getLine(), i.getColumn(), "Se esperaba un LValue en input");
+
+        if(!i.getExpression().getType().isBuiltInType()) {
+            i.getExpression().setType(new ErrorType(i.getExpression().getLine(),i.getExpression().getColumn(),
+                            "Se esperaba un tipo primitivo"));
         }
+
         return null;
     }
 
@@ -157,11 +178,65 @@ public class TypeCheckingVisitor extends AbstractVisitor {
 
         if( not.getType() == null)
             not.setType(new ErrorType(not.getLine(), not.getColumn(),
-                    "No se puede realizar la negación de la expresión con tipo: " +
+                    "No se puede negar la expresión con tipo: " +
                             not.getExpression().getType()));
 
         return null;
     }
 
+    @Override
+    public Object visit(Cast cast, Object o) {
+        cast.getExpression().accept(this, o);
+        cast.getType().accept(this, o);
 
+        cast.setType(cast.getExpression().getType().canBeCastTo(cast.getType()));
+
+        if(cast.getType() == null)
+            cast.setType(new ErrorType(cast.getLine(), cast.getColumn(),
+                            "No es posible hacer cast del tipo "
+                                    + cast.getExpression().getType() + " al tipo "
+                                    + cast.getType()));
+
+        return null;
+    }
+
+    @Override
+    public Object visit(UnaryMinus unaryMinus, Object o) {
+        unaryMinus.getExpression().accept(this, o);
+
+        unaryMinus.setType(unaryMinus.getExpression().getType().arithmetic());
+
+        if(unaryMinus.getType() == null)
+            unaryMinus.setType(new ErrorType(unaryMinus.getLine(), unaryMinus.getColumn(),
+                            "Imposible aplicar menos unario a la expresión con el tipo: " +
+                                    unaryMinus.getExpression().getType()));
+
+        return null;
+    }
+
+    @Override
+    public Object visit(PrintStatement printStatement, Object o) {
+        printStatement.getExpression().accept(this, o);
+
+        if(!printStatement.getExpression().getType().isBuiltInType())
+            printStatement.getExpression().setType(new ErrorType(printStatement.getExpression().getLine(),printStatement.getExpression().getColumn(),
+                            "Se esperaba un tipo primitivo"));
+
+        return null;
+    }
+
+
+    @Override
+    public Object visit(Function function, Object o) {
+        function.getVariable().accept(this, o);
+        function.getExpressions().stream().forEach((e)-> {e.accept(this, o);});
+
+        function.setType(function.getVariable().getType().parenthesis(function.getExpressions()));
+
+        if(function.getType() == null)
+            function.setType(new ErrorType(function.getLine(), function.getColumn(),
+                            "No se puede invocar la función"));
+
+        return null;
+    }
 }
