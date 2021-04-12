@@ -18,4 +18,12 @@ public class VarDefinition extends AbstractDefinition implements Definition, Sta
         v.visit(this, o);
         return null;
     }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
 }

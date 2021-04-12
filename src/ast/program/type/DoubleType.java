@@ -47,7 +47,7 @@ public class DoubleType extends AbstractType implements Type{
 
     @Override
     public Type promotesTo(Type type) {
-        if(type.equals(DoubleType.getInstance()) || type instanceof ErrorType) {
+        if(type instanceof DoubleType || type instanceof ErrorType) {
             return type;
         }
         return null;

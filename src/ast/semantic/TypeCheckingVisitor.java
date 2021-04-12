@@ -1,9 +1,8 @@
 package ast.semantic;
 
 import ast.expression.*;
-import ast.program.type.ErrorType;
-import ast.program.type.FunctionType;
-import ast.program.type.Type;
+import ast.program.definition.VarDefinition;
+import ast.program.type.*;
 import ast.statement.*;
 import ast.visitor.Visitor;
 import ast.visitor.util.AbstractVisitor;
@@ -14,24 +13,28 @@ public class TypeCheckingVisitor extends AbstractVisitor {
     public Object visit(Variable variable, Object o) {
         variable.setLValue(true);
         variable.setType(variable.getDefinition().getType());
+
         return  null;
     }
 
     @Override
     public Object visit(IntLiteral intLiteral, Object o) {
         intLiteral.setLValue(false);
+        intLiteral.setType(IntType.getInstance());
         return  null;
     }
 
     @Override
     public Object visit(DoubleLiteral doubleLiteral, Object o) {
         doubleLiteral.setLValue(false);
+        doubleLiteral.setType(DoubleType.getInstance());
         return  null;
     }
 
     @Override
     public Object visit(CharLiteral charLiteral, Object o) {
         charLiteral.setLValue(false);
+        charLiteral.setType(CharType.getInstance());
         return  null;
     }
 
@@ -68,29 +71,40 @@ public class TypeCheckingVisitor extends AbstractVisitor {
     public Object visit(AssignmentStatement a, Object o){
         a.getLeftExpression().accept(this, o);
         a.getRightExpression().accept(this, o);
+
+        Type tipoIzquierda = a.getLeftExpression().getType();
+        Type tipoDerecha = a.getRightExpression().getType();
+
         if(!a.getLeftExpression().getLValue())
             new ErrorType(a.getLine(), a.getColumn(), "Se esperaba un LValue");
 
-
         a.getLeftExpression().setType(a.getRightExpression().getType().promotesTo(a.getLeftExpression().getType()));
+
         if( a.getLeftExpression().getType() == null)
             a.getLeftExpression().setType(new ErrorType(a.getLeftExpression().getLine(), a.getLeftExpression().getColumn(),
                     "No es posible asignar el tipo " +
-                            a.getRightExpression().getType() + " al tipo " +
-                            a.getLeftExpression().getType()));
+                            tipoDerecha + " al tipo " +
+                            tipoIzquierda));
 
         return null;
     }
 
     @Override
-    public Object visit(InputStatement i, Object o){
-        i.getExpression().accept(this, o);
-        if(!i.getExpression().getLValue())
-            new ErrorType(i.getLine(), i.getColumn(), "Se esperaba un LValue en input");
+    public Object visit(InputStatement inputStatement , Object o) {
+        inputStatement.getExpression().accept(this, o);
 
-        if(!i.getExpression().getType().isBuiltInType()) {
-            i.getExpression().setType(new ErrorType(i.getExpression().getLine(),i.getExpression().getColumn(),
-                            "Se esperaba un tipo primitivo"));
+        if(!inputStatement.getExpression().getLValue()) {
+            new ErrorType(inputStatement.getExpression().getLine(), inputStatement.getExpression().getColumn(),
+                    "La expresión de tipo " + inputStatement.getExpression().getType() + " no es modificable");
+        }
+
+        if(!inputStatement.getExpression().getType().isBuiltInType()) {
+            inputStatement.getExpression().setType(
+                    new ErrorType(
+                            inputStatement.getExpression().getLine(),
+                            inputStatement.getExpression().getColumn(),
+                            "Se esperaba un tipo primitivo y se ha recibido un " +
+                                    inputStatement.getExpression().getType()));
         }
 
         return null;
@@ -118,7 +132,10 @@ public class TypeCheckingVisitor extends AbstractVisitor {
                     "La condición no es una expresión lógica"));
 
         ifElseStatement.getIfStatementList().stream().forEach((e)-> {e.accept(this, o);});
-        ifElseStatement.getElseStatementList().stream().forEach((e)-> {e.accept(this, o);});
+        //El else puede ser null, asi que nos aseguramos
+        if(ifElseStatement.getElseStatementList()!= null){
+            ifElseStatement.getElseStatementList().stream().forEach((e)-> {e.accept(this, o);});
+        }
         return null;
     }
 
@@ -225,6 +242,11 @@ public class TypeCheckingVisitor extends AbstractVisitor {
         return null;
     }
 
+    @Override
+    public Object visit(VarDefinition varDefinition, Object o) {
+        varDefinition.getType().accept(this, o);
+        return null;
+    }
 
     @Override
     public Object visit(Function function, Object o) {

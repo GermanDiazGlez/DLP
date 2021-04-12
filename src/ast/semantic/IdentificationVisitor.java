@@ -30,6 +30,7 @@ public class IdentificationVisitor extends AbstractVisitor {
         return null;
     }
 
+
     @Override
     public Object visit(FuncDefinition functionDefinition, Object o) {
         insertDefinition(functionDefinition);
