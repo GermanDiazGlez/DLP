@@ -36,4 +36,10 @@ public class StructType extends AbstractType implements Type{
         }
         return null;
     }
+
+    @Override
+    public String toString(){
+        return "Struct";
+    }
+
 }

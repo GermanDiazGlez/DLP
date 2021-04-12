@@ -38,13 +38,13 @@ fields returns [List<RecordField> ast = new ArrayList<>()]: (i=ids ':' bt=builti
             for(String id : $i.ast)
             {
                 if(alreadyAdded.contains(id)){
-                    new ErrorType($i.start.getLine(), $i.start.getCharPositionInLine()+1, " , duplicated field " + id );
+                    new ErrorType($i.start.getLine(), $i.start.getCharPositionInLine()+1, "Campo duplicado: " + id );
                 }
                 else{
                     boolean repeated = false;
                     for(RecordField field: $ast){
                         if(field.getName().equals(id)){
-                            new ErrorType($i.start.getLine(), $i.start.getCharPositionInLine()+1, " , duplicated field " + id );
+                            new ErrorType($i.start.getLine(), $i.start.getCharPositionInLine()+1, "Campo duplicado: " + id );
                             repeated = true;
                             break;
                         }

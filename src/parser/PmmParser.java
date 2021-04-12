@@ -484,13 +484,13 @@ public class PmmParser extends Parser {
 				            for(String id : ((FieldsContext)_localctx).i.ast)
 				            {
 				                if(alreadyAdded.contains(id)){
-				                    new ErrorType((((FieldsContext)_localctx).i!=null?(((FieldsContext)_localctx).i.start):null).getLine(), (((FieldsContext)_localctx).i!=null?(((FieldsContext)_localctx).i.start):null).getCharPositionInLine()+1, " , duplicated field " + id );
+				                    new ErrorType((((FieldsContext)_localctx).i!=null?(((FieldsContext)_localctx).i.start):null).getLine(), (((FieldsContext)_localctx).i!=null?(((FieldsContext)_localctx).i.start):null).getCharPositionInLine()+1, "Campo duplicado: " + id );
 				                }
 				                else{
 				                    boolean repeated = false;
 				                    for(RecordField field: _localctx.ast){
 				                        if(field.getName().equals(id)){
-				                            new ErrorType((((FieldsContext)_localctx).i!=null?(((FieldsContext)_localctx).i.start):null).getLine(), (((FieldsContext)_localctx).i!=null?(((FieldsContext)_localctx).i.start):null).getCharPositionInLine()+1, " , duplicated field " + id );
+				                            new ErrorType((((FieldsContext)_localctx).i!=null?(((FieldsContext)_localctx).i.start):null).getLine(), (((FieldsContext)_localctx).i!=null?(((FieldsContext)_localctx).i.start):null).getCharPositionInLine()+1, "Campo duplicado: " + id );
 				                            repeated = true;
 				                            break;
 				                        }

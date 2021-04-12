@@ -81,4 +81,9 @@ public class IntType extends AbstractType implements Type{
         }
         return null;
     }
+
+    @Override
+    public String toString(){
+        return "Int";
+    }
 }

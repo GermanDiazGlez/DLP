@@ -65,4 +65,9 @@ public class CharType extends AbstractType implements Type{
         }
         return null;
     }
+
+    @Override
+    public String toString(){
+        return "Char";
+    }
 }

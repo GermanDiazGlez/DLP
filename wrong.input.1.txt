@@ -9,3 +9,7 @@ def main(): {
   input integer+2; 	# Error 3
 }
 
+@Override
+    public String toString(){
+        return "Double";
+    }

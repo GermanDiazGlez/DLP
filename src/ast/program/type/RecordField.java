@@ -29,4 +29,9 @@ public class RecordField extends AbstractNodeAST{
         v.visit(this, o);
         return null;
     }
+
+    @Override
+    public String toString(){
+        return "RecordField";
+    }
 }

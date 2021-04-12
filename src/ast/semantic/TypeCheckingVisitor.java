@@ -83,8 +83,8 @@ public class TypeCheckingVisitor extends AbstractVisitor {
         if( a.getLeftExpression().getType() == null)
             a.getLeftExpression().setType(new ErrorType(a.getLeftExpression().getLine(), a.getLeftExpression().getColumn(),
                     "No es posible asignar el tipo " +
-                            tipoDerecha + " al tipo " +
-                            tipoIzquierda));
+                            tipoDerecha.toString() + " al tipo " +
+                            tipoIzquierda.toString()));
 
         return null;
     }
@@ -165,8 +165,8 @@ public class TypeCheckingVisitor extends AbstractVisitor {
         if( comparison.getType() == null)
             comparison.setType(new ErrorType(comparison.getLine(), comparison.getColumn(),
                     "No se puede hacer la comparación '" + comparison.getOperator() + "' con los tipos " +
-                            comparison.getLeftExpression().getType() + " y " +
-                            comparison.getRightExpression().getType()));
+                            comparison.getLeftExpression().getType().toString() + " y " +
+                            comparison.getRightExpression().getType().toString()));
 
         return null;
     }
