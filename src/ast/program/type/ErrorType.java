@@ -40,4 +40,6 @@ public class ErrorType extends AbstractType implements Type{
     public Type promotesTo(Type type) {
         return this;
     }
+
+    //Implementar todos los metodos de Type y que retornen this.
 }
