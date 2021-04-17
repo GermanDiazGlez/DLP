@@ -8,6 +8,7 @@ public class RecordField extends AbstractNodeAST{
 
     private String name;
     private Type type;
+    private int offset;
 
     public RecordField(int line, int column, String name, Type type){
         super(line, column);
@@ -30,8 +31,18 @@ public class RecordField extends AbstractNodeAST{
         return null;
     }
 
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
+
     @Override
     public String toString(){
         return "RecordField";
     }
+
 }

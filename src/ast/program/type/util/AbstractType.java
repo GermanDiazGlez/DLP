@@ -95,4 +95,11 @@ public abstract class AbstractType extends AbstractNodeAST implements Type {
     public Type parenthesis(List<Expression> parameters) {
         return null;
     }
+
+    @Override
+    public int numberOfBytes() {
+        return 0;
+    }
+
+
 }

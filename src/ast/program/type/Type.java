@@ -18,5 +18,6 @@ public interface Type extends ASTNode {
     Type squareBrackets(Type other);
     Type dot(String field);
     Type parenthesis(List<Expression> parameters);
+    int numberOfBytes();
 
 }

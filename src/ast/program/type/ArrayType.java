@@ -35,5 +35,9 @@ public class ArrayType extends AbstractType implements Type{
         return null;
     }
 
+    @Override
+    public int numberOfBytes() {
+        return of.numberOfBytes() * size;
+    }
 
 }

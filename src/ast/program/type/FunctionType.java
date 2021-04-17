@@ -49,7 +49,6 @@ public class FunctionType extends AbstractType implements Type{
                 return null;
             }
         }
-
         return returnType;
     }
 }

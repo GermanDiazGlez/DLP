@@ -38,6 +38,15 @@ public class StructType extends AbstractType implements Type{
     }
 
     @Override
+    public int numberOfBytes() {
+        int bytes = 0;
+        for(RecordField field: recordFieldList) {
+            bytes += field.getType().numberOfBytes();
+        }
+        return bytes;
+    }
+
+    @Override
     public String toString(){
         return "Struct";
     }

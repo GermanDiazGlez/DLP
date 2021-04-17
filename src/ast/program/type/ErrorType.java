@@ -1,9 +1,12 @@
 package ast.program.type;
 
 import ast.AbstractNodeAST;
+import ast.expression.Expression;
 import ast.program.type.util.AbstractType;
 import ast.visitor.Visitor;
 import errorhandler.EH;
+
+import java.util.List;
 
 public class ErrorType extends AbstractType implements Type{
 
@@ -41,5 +44,33 @@ public class ErrorType extends AbstractType implements Type{
         return this;
     }
 
-    //Implementar todos los metodos de Type y que retornen this.
+    @Override
+    public Type logic(Type other){
+        return this;
+    }
+
+    @Override
+    public Type canBeCastTo(Type other){
+        return this;
+    }
+
+    @Override
+    public Type comparison(Type other){
+        return this;
+    }
+
+    @Override
+    public Type squareBrackets(Type other){
+        return this;
+    }
+
+    @Override
+    public Type dot(String field){
+        return this;
+    }
+
+    @Override
+    public Type parenthesis(List<Expression> parameters){
+        return this;
+    }
 }

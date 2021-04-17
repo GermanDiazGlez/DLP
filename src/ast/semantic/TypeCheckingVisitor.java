@@ -110,7 +110,6 @@ public class TypeCheckingVisitor extends AbstractVisitor {
         return null;
     }
 
-
     @Override
     public Object visit(WhileStatement whileStatement, Object o) {
         whileStatement.getExpression().accept(this, o);
@@ -247,6 +246,27 @@ public class TypeCheckingVisitor extends AbstractVisitor {
         varDefinition.getType().accept(this, o);
         return null;
     }
+
+    @Override
+    public Object visit(ReturnStatement returnStatement, Object o) {
+        returnStatement.getExpression().accept(this, o);
+
+        FunctionType functionType = (FunctionType) o;
+        Type returnType = returnStatement.getExpression().getType();
+
+        System.out.println("retType: " + returnType);
+        System.out.println("FuncType: " + functionType);
+
+        returnStatement.getExpression().setType(returnStatement.getExpression().getType().promotesTo(functionType.getReturnType()));
+
+        if(returnStatement.getExpression().getType() == null)
+            returnStatement.getExpression().setType(new ErrorType(returnStatement.getExpression().getLine(),returnStatement.getExpression().getColumn(),
+                            "El retorno esperado era de tipo " + functionType.getReturnType()
+                                    + " y fué un " + returnType));
+
+        return null;
+    }
+
 
     @Override
     public Object visit(Function function, Object o) {

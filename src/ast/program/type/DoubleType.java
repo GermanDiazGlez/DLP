@@ -67,6 +67,11 @@ public class DoubleType extends AbstractType implements Type{
     }
 
     @Override
+    public int numberOfBytes() {
+        return 4;
+    }
+
+    @Override
     public String toString(){
         return "Double";
     }
