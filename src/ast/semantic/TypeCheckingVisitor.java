@@ -1,6 +1,7 @@
 package ast.semantic;
 
 import ast.expression.*;
+import ast.program.definition.FuncDefinition;
 import ast.program.definition.VarDefinition;
 import ast.program.type.*;
 import ast.statement.*;
@@ -254,9 +255,6 @@ public class TypeCheckingVisitor extends AbstractVisitor {
         FunctionType functionType = (FunctionType) o;
         Type returnType = returnStatement.getExpression().getType();
 
-        System.out.println("retType: " + returnType);
-        System.out.println("FuncType: " + functionType);
-
         returnStatement.getExpression().setType(returnStatement.getExpression().getType().promotesTo(functionType.getReturnType()));
 
         if(returnStatement.getExpression().getType() == null)
@@ -278,6 +276,14 @@ public class TypeCheckingVisitor extends AbstractVisitor {
         if(function.getType() == null)
             function.setType(new ErrorType(function.getLine(), function.getColumn(),
                             "No se puede invocar la función"));
+
+        return null;
+    }
+
+    @Override
+    public Object visit(FuncDefinition funcDefinition, Object o) {
+        funcDefinition.getType().accept(this, o);
+        funcDefinition.getStatementList().stream().forEach((e) -> {e.accept(this, funcDefinition.getType());});
 
         return null;
     }
