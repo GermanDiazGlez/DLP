@@ -72,6 +72,11 @@ public class CharType extends AbstractType implements Type{
     }
 
     @Override
+    public  suffix(){
+        return
+    }
+
+    @Override
     public String toString(){
         return "Char";
     }
