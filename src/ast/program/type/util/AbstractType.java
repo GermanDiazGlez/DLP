@@ -101,5 +101,9 @@ public abstract class AbstractType extends AbstractNodeAST implements Type {
         return 0;
     }
 
+    @Override
+    public char suffix() {
+        throw new IllegalStateException("No es posible obtener el sufijo");
+    }
 
 }

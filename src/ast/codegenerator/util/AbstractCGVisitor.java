@@ -1,6 +1,7 @@
 package ast.codegenerator.util;
 
 import ast.Program;
+import ast.codegenerator.CodeGenerator;
 import ast.expression.*;
 import ast.program.definition.FuncDefinition;
 import ast.program.definition.VarDefinition;

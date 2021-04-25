@@ -1,3 +1,6 @@
+import ast.codegenerator.CodeGenerator;
+import ast.codegenerator.ExecuteCGVisitor;
+import ast.codegenerator.OffSetVisitor;
 import ast.semantic.IdentificationVisitor;
 import ast.semantic.TypeCheckingVisitor;
 import ast.visitor.Visitor;
@@ -39,8 +42,9 @@ public class Main {
 			EH.getEH().showErrors(System.err);
 		}
 		else{
+			ast.accept(new OffSetVisitor(), null);
 			// * The AST is shown
-
+			ast.accept(new ExecuteCGVisitor(new CodeGenerator(args[1], args[0])), null);
 
 			//IntrospectorModel model=new IntrospectorModel("Program", ast);
 			//new IntrospectorTree("Introspector", model);
