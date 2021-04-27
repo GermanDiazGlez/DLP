@@ -5,6 +5,7 @@ import ast.program.definition.VarDefinition;
 import ast.program.type.FunctionType;
 import ast.program.type.RecordField;
 import ast.program.type.StructType;
+import ast.statement.Statement;
 import ast.visitor.util.AbstractVisitor;
 
 public class OffSetVisitor extends AbstractVisitor {
@@ -30,6 +31,15 @@ public class OffSetVisitor extends AbstractVisitor {
     @Override
     public Object visit(FuncDefinition funcDefinition, Object o) {
         offsetLocal = 0;
+        funcDefinition.getType().accept(this, o);
+
+        int variablesSize = 0;
+        for (Statement statement: funcDefinition.getStatementList()) {
+            if(statement instanceof VarDefinition)
+                variablesSize += ((VarDefinition) statement).getType().numberOfBytes();
+        }
+        funcDefinition.setVariablesSize(variablesSize);
+
         super.visit(funcDefinition, o);
         return null;
     }

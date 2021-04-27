@@ -14,6 +14,8 @@ import java.util.List;
 public class FuncDefinition extends AbstractDefinition implements Definition{
     private List<Statement> statementList;
 
+    private int variablesSize;
+
     public FuncDefinition(int line, int column, FunctionType type, String name,
                           List<Statement> statementList){
         super(line, column, type, name);
@@ -35,6 +37,14 @@ public class FuncDefinition extends AbstractDefinition implements Definition{
     public Object accept(Visitor v, Object o) {
         v.visit(this, o);
         return null;
+    }
+
+    public void setVariablesSize(int size){
+        this.variablesSize = size;
+    }
+
+    public int getVariablesSize(){
+        return this.variablesSize;
     }
 
 }

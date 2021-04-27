@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 public class CodeGenerator {
     private static CodeGenerator codeGenerator;
     private static PrintWriter out;
+    private int labelCounter;
 
     public static CodeGenerator getInstance(String in_file, String out_file) {
         codeGenerator = new CodeGenerator(in_file, out_file);
@@ -189,6 +190,10 @@ public class CodeGenerator {
     public void jnz(int number){
         out.println("\tjnz\tlabel"+number);
         out.flush();
+    }
+
+    public int getLabel() {
+        return labelCounter++;
     }
 
     public void label(int number){

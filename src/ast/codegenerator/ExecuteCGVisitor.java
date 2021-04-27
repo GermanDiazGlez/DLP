@@ -75,7 +75,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor {
     @Override
     public Object visit(PrintStatement printStatement, Object o) {
         /**
-         execute [[ Print : statement -> expression ]]() =
+         execute [[Print : statement -> expression ]]() =
                 value[[expression]]()
                 <out>expression.type.suffix()
          */
@@ -132,12 +132,12 @@ public class ExecuteCGVisitor extends AbstractCGVisitor {
     @Override
     public Object visit(VarDefinition varDefinition, Object o) {
         /**
-         execute [[ VariableDefinition : Definition -> name:String ]]() =
+         execute [[VariableDefinition : Definition -> name:String]]() =
             enter <vars_size>
             execute[variables]
          */
 
-        varDefinition.accept(this, o);
+        varDefinition.accept(value, o);
         codeGenerator.enter(varDefinition.getType().numberOfBytes());
         return null;
     }
@@ -149,16 +149,89 @@ public class ExecuteCGVisitor extends AbstractCGVisitor {
 
     @Override
     public Object visit(ReturnStatement returnStatement, Object o) {
+        /**
+         execute [[Return:statement -> expression]](funcDefinition)=
+              value[[expression]]()
+              <ret> expression.type.numberOfBytes() <,>
+                      funcDefinition.bytesLocalSum <,>
+                      funcDefinition.type.bytesParamSum
+         */
+        codeGenerator.line(returnStatement.getLine());
+        returnStatement.accept(value, o);
+
+        FuncDefinition funcDefinition = (FuncDefinition) o;
+        FunctionType functionType = (FunctionType) funcDefinition.getType();
+        int localVariableSize = funcDefinition.getVariablesSize();
+
+        codeGenerator.ret(functionType, localVariableSize);
         return null;
     }
 
     @Override
     public Object visit(IfElseStatement ifElseStatement, Object o) {
+        /**
+         execute [[IfElseStatement : statement -> expression statement*]]() =
+         int elseCondition = cg.getLabel()
+         int end = cg.getLabel()
+
+         value[[expression]]()
+         <jz label> elseCondition
+         for(Statement statement: statement1*)
+            execute[[statement]]()
+         <jmp label> end
+         <label> elseCondition <:>
+         for(Statement statement: statement2*)
+               execute[[statement]]()
+         <label> end <:>
+         */
+        codeGenerator.line(ifElseStatement.getLine());
+        int elseCondition = codeGenerator.getLabel();
+        int end = codeGenerator.getLabel();
+
+        ifElseStatement.getExpression().accept(this, o);
+        codeGenerator.jz(elseCondition);
+        for (Statement statement: ifElseStatement.getIfStatementList()) {
+            statement.accept(this, o);
+        }
+        codeGenerator.jmp(end);
+
+        codeGenerator.label(elseCondition);
+        for (Statement statement: ifElseStatement.getElseStatementList()) {
+            statement.accept(this, o);
+        }
+
+        codeGenerator.label(end);
         return null;
     }
 
     @Override
     public Object visit(WhileStatement whileStatement, Object o) {
+        /**
+         execute [[WhileStatement : statement -> expression statement*]]() =
+         int condition = cg.getLabel()
+         int end = cg.getLabel()
+
+         <label> condition <:>
+         value[[expression]]()
+         <jz label> end
+         for(Statement statement: statement*)
+            execute[[statement]]()
+         <jmp label> condition
+         <label> end <:>
+         */
+        codeGenerator.line(whileStatement.getLine());
+        int condition = codeGenerator.getLabel();
+        int end = codeGenerator.getLabel();
+
+        codeGenerator.label(condition);
+        whileStatement.getExpression().accept(value, o);
+        codeGenerator.jz(end);
+        for (Statement statement: whileStatement.getWhileStatementList()) {
+            statement.accept(this, o);
+        }
+        codeGenerator.jmp(condition);
+
+        codeGenerator.label(end);
         return null;
     }
 }
