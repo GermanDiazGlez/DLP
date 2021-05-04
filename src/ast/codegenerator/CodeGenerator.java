@@ -147,6 +147,15 @@ public class CodeGenerator {
         }
     }
 
+    public void pop(char suffix) {
+        out.println("\tpop" + suffix);
+        out.flush();
+    }
+    public void dup(char suffix) {
+        out.println("\tdup" + suffix);
+        out.flush();
+    }
+
     public void halt() {
         out.println("halt\n");
         out.flush();

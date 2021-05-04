@@ -47,7 +47,7 @@ public class OffSetVisitor extends AbstractVisitor {
     @Override
     public Object visit(FunctionType functionType, Object o) {
         int offsetParameters = 4;
-        for(int i = functionType.getParameters().size() - 1; i <= 0; i--){
+        for(int i = functionType.getParameters().size() - 1; i >= 0; i--){
             VarDefinition parameter = functionType.getParameters().get(i);
             parameter.setOffset(offsetParameters);
             offsetParameters += parameter.getType().numberOfBytes();

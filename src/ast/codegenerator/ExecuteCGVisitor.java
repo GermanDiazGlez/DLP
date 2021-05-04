@@ -2,11 +2,13 @@ package ast.codegenerator;
 
 import ast.Program;
 import ast.codegenerator.util.AbstractCGVisitor;
+import ast.expression.Expression;
 import ast.expression.Function;
 import ast.program.definition.Definition;
 import ast.program.definition.FuncDefinition;
 import ast.program.definition.VarDefinition;
 import ast.program.type.FunctionType;
+import ast.program.type.VoidType;
 import ast.statement.*;
 
 import java.util.List;
@@ -107,7 +109,8 @@ public class ExecuteCGVisitor extends AbstractCGVisitor {
               enter <locals_size>
               execute[variables]
               execute[statements]
-              ret <return_size>, <locals_size>, <params_size>
+              if(type.returnType instance VoidType)
+                ret <return_size>, <locals_size>, <params_size>
          */
         codeGenerator.line(funcDefinition.getLine());
         codeGenerator.func(funcDefinition.getName());
@@ -131,19 +134,32 @@ public class ExecuteCGVisitor extends AbstractCGVisitor {
 
     @Override
     public Object visit(VarDefinition varDefinition, Object o) {
-        /**
-         execute [[VariableDefinition : Definition -> name:String]]() =
-            enter <vars_size>
-            execute[variables]
-         */
-
-        varDefinition.accept(value, o);
-        codeGenerator.enter(varDefinition.getType().numberOfBytes());
         return null;
     }
 
     @Override
     public Object visit(Function function, Object o) {
+        /**
+         value[[Invocation: expression1 -> expression2 expression*]]() =
+            for(Espression arg : expression*)
+                value[[arg]]()
+            <call> expression2.name
+
+         execute[[Invocation: statement -> expression expression*]]() =
+            value[[(Expression)statement]]()
+            if(!((Expression)statement).type instanceof VoidType))
+                <pop> ((Expression)statement).type.suffix()
+         */
+        codeGenerator.line(function.getLine());
+        for(Expression expression: function.getExpressions()) {
+            expression.accept(this.value, o);
+        }
+        codeGenerator.callFunction(function.getVariable().getName());
+
+        function.accept(this.value, o);
+        if(!(function.getType().equals(VoidType.getInstance()))){
+            codeGenerator.pop(function.getType().suffix());
+        }
         return null;
     }
 
